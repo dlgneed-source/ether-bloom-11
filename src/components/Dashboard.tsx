@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Wallet, ArrowUpRight, Users, TrendingUp, ChevronDown, ChevronRight } from 'lucide-react';
+import { Wallet, ArrowUpRight, ArrowDownLeft, Users, TrendingUp, ChevronDown, ChevronRight, Share2, Clock, DollarSign } from 'lucide-react';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({ opacity: 1, y: 0, transition: { delay: i * 0.1, duration: 0.5 } }),
 };
 
-// Simple referral tree data
 const referralTree = {
   name: 'You',
   wallet: '0x1A4...B9F2',
@@ -89,7 +88,16 @@ const TreeNodeItem: React.FC<{ node: TreeNode; depth?: number }> = ({ node, dept
   );
 };
 
+const recentTransactions = [
+  { id: 1, type: 'Deposit', amount: '+$500.00', time: '2h ago', status: 'Completed' },
+  { id: 2, type: 'Commission', amount: '+$24.50', time: '5h ago', status: 'Completed' },
+  { id: 3, type: 'Withdrawal', amount: '-$200.00', time: '1d ago', status: 'Pending' },
+  { id: 4, type: 'Referral Bonus', amount: '+$15.00', time: '2d ago', status: 'Completed' },
+];
+
 const Dashboard: React.FC = () => {
+  const [showTransactions, setShowTransactions] = useState(false);
+
   return (
     <div className="flex-1 overflow-y-auto pb-20 scrollbar-hide">
       <div className="p-4 sm:p-6 max-w-5xl mx-auto flex flex-col gap-4 sm:gap-6">
@@ -113,14 +121,78 @@ const Dashboard: React.FC = () => {
           </div>
           <p className="text-3xl sm:text-4xl font-extrabold text-primary-foreground tracking-tight">$4,892<span className="text-lg text-muted-foreground">.50</span></p>
           <p className="text-xs text-muted-foreground mt-1 font-mono">≈ 8.12 BNB</p>
-          <button className="mt-5 w-full sm:w-auto bg-gradient-to-r from-accent to-primary text-primary-foreground py-3 px-6 rounded-xl font-bold text-sm transition-all glow-fuchsia flex items-center justify-center gap-2">
-            <ArrowUpRight className="w-4 h-4" /> Withdraw Funds
-          </button>
+          
+          {/* Action Buttons */}
+          <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+            <button className="bg-gradient-to-r from-accent to-primary text-primary-foreground py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all glow-fuchsia flex items-center justify-center gap-1.5">
+              <ArrowUpRight className="w-3.5 h-3.5" /> Withdraw
+            </button>
+            <button className="bg-secondary hover:bg-secondary/80 border border-primary/20 text-foreground py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5">
+              <ArrowDownLeft className="w-3.5 h-3.5 text-neon-green" /> Deposit
+            </button>
+            <button className="bg-secondary hover:bg-secondary/80 border border-primary/20 text-foreground py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5">
+              <Share2 className="w-3.5 h-3.5 text-primary" /> Refer
+            </button>
+            <button
+              onClick={() => setShowTransactions(!showTransactions)}
+              className="bg-secondary hover:bg-secondary/80 border border-primary/20 text-foreground py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5"
+            >
+              <Clock className="w-3.5 h-3.5 text-accent" /> History
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Recent Transactions */}
+        {showTransactions && (
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="glass rounded-2xl sm:rounded-3xl p-4 sm:p-5 overflow-hidden">
+            <h2 className="text-sm font-bold text-primary-foreground mb-3 flex items-center gap-2">
+              <Clock className="w-4 h-4 text-accent" /> Recent Transactions
+            </h2>
+            <div className="space-y-2">
+              {recentTransactions.map((tx) => (
+                <div key={tx.id} className="flex items-center justify-between py-2 px-3 rounded-xl bg-secondary/40 border border-border/20">
+                  <div>
+                    <p className="text-xs sm:text-sm font-semibold text-foreground">{tx.type}</p>
+                    <p className="text-[10px] text-muted-foreground">{tx.time}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className={`text-xs sm:text-sm font-bold ${tx.amount.startsWith('+') ? 'text-neon-green' : 'text-primary'}`}>{tx.amount}</p>
+                    <p className={`text-[10px] font-semibold ${tx.status === 'Completed' ? 'text-neon-green/70' : 'text-accent/70'}`}>{tx.status}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Invested Income Card */}
+        <motion.div initial="hidden" animate="visible" custom={2} variants={fadeUp} className="glass-strong rounded-2xl sm:rounded-3xl p-5 sm:p-6 relative overflow-hidden">
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent/10 rounded-full blur-[50px] pointer-events-none" />
+          <div className="flex items-center gap-2 mb-3">
+            <DollarSign className="w-5 h-5 text-neon-green" />
+            <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Invested Income</span>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <p className="text-[10px] text-muted-foreground mb-1">Total Invested</p>
+              <p className="text-xl sm:text-2xl font-extrabold text-primary-foreground">$2,500<span className="text-sm text-muted-foreground">.00</span></p>
+            </div>
+            <div>
+              <p className="text-[10px] text-muted-foreground mb-1">Returns Earned</p>
+              <p className="text-xl sm:text-2xl font-extrabold text-neon-green">$892<span className="text-sm text-muted-foreground/70">.50</span></p>
+            </div>
+          </div>
+          <div className="mt-4 flex items-center gap-2">
+            <div className="flex-1 h-2 bg-secondary rounded-full overflow-hidden">
+              <div className="h-full w-[65%] bg-gradient-to-r from-accent to-primary rounded-full" />
+            </div>
+            <span className="text-[10px] font-bold text-primary">35.7% ROI</span>
+          </div>
         </motion.div>
 
         {/* Commission Stats */}
         <div className="grid grid-cols-2 gap-3 sm:gap-4">
-          <motion.div initial="hidden" animate="visible" custom={2} variants={fadeUp} className="glass rounded-2xl p-4 sm:p-5">
+          <motion.div initial="hidden" animate="visible" custom={3} variants={fadeUp} className="glass rounded-2xl p-4 sm:p-5">
             <div className="flex items-center gap-2 mb-3">
               <Users className="w-4 h-4 text-accent" />
               <span className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase tracking-widest">Level 1</span>
@@ -128,7 +200,7 @@ const Dashboard: React.FC = () => {
             <p className="text-xl sm:text-2xl font-extrabold text-primary-foreground">$1,240</p>
             <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">24 Referrals • 5% rate</p>
           </motion.div>
-          <motion.div initial="hidden" animate="visible" custom={3} variants={fadeUp} className="glass rounded-2xl p-4 sm:p-5">
+          <motion.div initial="hidden" animate="visible" custom={4} variants={fadeUp} className="glass rounded-2xl p-4 sm:p-5">
             <div className="flex items-center gap-2 mb-3">
               <Users className="w-4 h-4 text-primary" />
               <span className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase tracking-widest">Level 2</span>
@@ -139,7 +211,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Referral Tree */}
-        <motion.div initial="hidden" animate="visible" custom={4} variants={fadeUp} className="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6">
+        <motion.div initial="hidden" animate="visible" custom={5} variants={fadeUp} className="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6">
           <h2 className="text-sm sm:text-base font-bold text-primary-foreground mb-4 flex items-center gap-2">
             <Users className="w-4 h-4 text-primary" /> Referral Tree
             <span className="ml-auto text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold">Live</span>

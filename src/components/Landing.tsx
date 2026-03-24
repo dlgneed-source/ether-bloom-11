@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Home, User, Sparkles, MessageSquareText, Code2 } from 'lucide-react';
 
 const techStackRow1 = [
   { name: 'BEP-20 Network', icon: <svg viewBox="0 0 24 24" fill="#F3BA2F" className="w-7 h-7"><path d="M16.624 13.9202l2.7175 2.7154-7.353 7.353-7.353-7.352 2.7175-2.7164 4.6355 4.6595 4.6356-4.6595zm4.6366-4.6366L24 12l-2.7394 2.7154-2.738-2.7154 2.738-2.7155zM7.376 9.2836l2.7175 2.7164L5.458 16.6355 2.7393 13.9202l4.6366-4.6366zm9.248 0l4.6366 4.6366-2.7188 2.7154-4.6355-4.6595 2.7176-2.7165zM2.738 9.2845L0 12l2.738 2.7154L5.4773 12l-2.7393-2.7155zm9.25-9.2845l7.353 7.353-2.7175 2.7154-4.6355-4.6595-4.6355 4.6595-2.7175-2.7154 7.353-7.353zM12 10.9602l1.0425 1.0398L12 13.0425l-1.0425-1.0425L12 10.9602z"/></svg> },
@@ -15,6 +16,14 @@ const techStackRow2 = [
 
 const marqueeItems1 = [...techStackRow1, ...techStackRow2, ...techStackRow1, ...techStackRow2, ...techStackRow1, ...techStackRow2];
 const marqueeItems2 = [...techStackRow2, ...techStackRow1, ...techStackRow2, ...techStackRow1, ...techStackRow2, ...techStackRow1];
+
+const menuItems = [
+  { label: 'Home (Hub)', icon: Home },
+  { label: 'Profile', icon: User },
+  { label: 'AI Models', icon: Sparkles },
+  { label: 'Feedback', icon: MessageSquareText },
+  { label: 'Developer Options', icon: Code2 },
+];
 
 interface LandingProps {
   onLogin: () => void;
@@ -68,11 +77,12 @@ const Landing: React.FC<LandingProps> = ({ onLogin }) => {
       {/* Sidebar Overlay */}
       <div className={`fixed inset-0 bg-background/60 backdrop-blur-sm z-40 transition-opacity duration-300 ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setIsMenuOpen(false)} />
       <div className={`fixed top-0 right-0 h-full w-64 glass-strong z-50 transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="flex flex-col pt-24 px-6 gap-6">
-          <p className="text-primary font-bold tracking-widest text-[11px] uppercase border-b border-border pb-2">Menu</p>
-          {['About Us', 'Help & Support', 'Feedback'].map((item) => (
-            <div key={item} className="flex items-center gap-3 text-foreground hover:text-primary cursor-pointer transition-colors">
-              <span className="font-semibold text-sm">{item}</span>
+        <div className="flex flex-col pt-24 px-6 gap-2">
+          <p className="text-primary font-bold tracking-widest text-[11px] uppercase border-b border-border pb-2 mb-2">Menu</p>
+          {menuItems.map((item) => (
+            <div key={item.label} className="flex items-center gap-3 text-foreground hover:text-primary cursor-pointer transition-colors px-2 py-2.5 rounded-lg hover:bg-primary/5">
+              <item.icon className="w-4 h-4 text-primary" />
+              <span className="font-semibold text-sm">{item.label}</span>
             </div>
           ))}
         </div>

@@ -29,7 +29,7 @@ const Index: React.FC = () => {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-accent/10 rounded-full blur-[100px]" />
       </div>
 
-      <DashboardHeader onLogout={() => setIsLoggedIn(false)} />
+      <DashboardHeader onLogout={() => setIsLoggedIn(false)} onNavigateHome={() => setActivePanel('dashboard')} />
 
       <AnimatePresence mode="wait">
         <motion.div

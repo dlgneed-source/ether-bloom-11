@@ -1,19 +1,33 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Lock, MessageSquare, Send, X, Bot, Sparkles, CheckCircle } from 'lucide-react';
+import { Play, Lock, Send, X, Bot, Sparkles, CheckCircle, BookOpen, Shield, Brain, Code2 } from 'lucide-react';
 
 const plans = [
-  { level: 1, name: 'Starter', price: '$29', features: ['Basic Video Courses', '10 AI Chat Queries/day', 'Community Access'], unlocked: true },
-  { level: 2, name: 'Pro', price: '$79', features: ['Advanced Tutorials', 'Unlimited AI Chat', 'Live Sessions'], unlocked: false },
-  { level: 3, name: 'Elite', price: '$149', features: ['Everything in Pro', 'Source Code Access', '1-on-1 Mentoring'], unlocked: false },
-  { level: 4, name: 'VIP', price: '$299', features: ['Full Ecosystem Access', 'Private Rooms', 'Priority Support'], unlocked: false },
+  {
+    level: 1, name: 'Foundation', price: '$29', icon: BookOpen, unlocked: true,
+    features: ['Web Dev Courses (HTML, CSS, JS)', 'Python Programming (Termux Hands-on)', 'Linux Command Line Mastery'],
+  },
+  {
+    level: 2, name: 'Pro Builder', price: '$79', icon: Code2, unlocked: false,
+    features: ['Modern UI/UX (React.js, Tailwind CSS)', 'SQL & DBMS', 'Git & Github', 'Bot Architecture (TG/Discord Bots)'],
+  },
+  {
+    level: 3, name: 'Cyber Elite', price: '$149', icon: Shield, unlocked: false,
+    features: ['Ethical Hacking Foundations', 'Network Analysis via Wireshark', 'Web App Security via Burpsuite'],
+  },
+  {
+    level: 4, name: 'AI Mastery', price: '$299', icon: Brain, unlocked: false,
+    features: ['Data Analysis via Pandas/Numpy', 'Advanced Neural Networks', 'AI API Integration'],
+  },
 ];
 
 const courses = [
-  { id: 1, title: 'Solidity Smart Contracts 101', duration: '42 min', thumbnail: '🔗', locked: false },
-  { id: 2, title: 'BEP-20 Token Deployment', duration: '38 min', thumbnail: '🪙', locked: false },
-  { id: 3, title: 'DeFi Yield Strategies', duration: '55 min', thumbnail: '📈', locked: true },
-  { id: 4, title: 'AI-Powered Trading Bots', duration: '1h 12 min', thumbnail: '🤖', locked: true },
+  { id: 1, title: 'HTML, CSS & JS Fundamentals', duration: '1h 20 min', thumbnail: '🌐', locked: false },
+  { id: 2, title: 'Python for Termux Users', duration: '55 min', thumbnail: '🐍', locked: false },
+  { id: 3, title: 'Linux Command Line Mastery', duration: '42 min', thumbnail: '🐧', locked: false },
+  { id: 4, title: 'React.js & Tailwind CSS', duration: '1h 45 min', thumbnail: '⚛️', locked: true },
+  { id: 5, title: 'Ethical Hacking Foundations', duration: '2h 10 min', thumbnail: '🔐', locked: true },
+  { id: 6, title: 'Neural Networks Deep Dive', duration: '1h 50 min', thumbnail: '🧠', locked: true },
 ];
 
 interface ChatMsg {
@@ -38,7 +52,7 @@ const EdTechSpace: React.FC = () => {
     setTimeout(() => {
       setChatMessages((prev) => [
         ...prev,
-        { role: 'ai', text: `Great question about "${userMsg}"! In Solidity, this concept relates to how smart contracts handle state variables and gas optimization. Would you like me to explain further?` },
+        { role: 'ai', text: `Great question about "${userMsg}"! This concept is covered in detail within the course modules. Would you like me to point you to the specific lesson?` },
       ]);
     }, 800);
   };
@@ -72,28 +86,32 @@ const EdTechSpace: React.FC = () => {
               <button onClick={() => setShowPlans(false)} className="text-muted-foreground hover:text-primary"><X className="w-5 h-5" /></button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {plans.map((plan) => (
-                <div key={plan.level} className={`glass rounded-2xl p-4 sm:p-5 relative overflow-hidden ${plan.unlocked ? 'border-primary/40' : ''}`}>
-                  {plan.unlocked && <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-[9px] font-bold px-2 py-0.5 rounded-bl-lg">ACTIVE</div>}
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full">Plan {plan.level}</span>
-                    <span className="text-sm font-bold text-primary-foreground">{plan.name}</span>
+              {plans.map((plan) => {
+                const PlanIcon = plan.icon;
+                return (
+                  <div key={plan.level} className={`glass rounded-2xl p-4 sm:p-5 relative overflow-hidden ${plan.unlocked ? 'border-primary/40' : ''}`}>
+                    {plan.unlocked && <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-[9px] font-bold px-2 py-0.5 rounded-bl-lg">ACTIVE</div>}
+                    <div className="flex items-center gap-2 mb-2">
+                      <PlanIcon className="w-4 h-4 text-primary" />
+                      <span className="text-xs font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full">Plan {plan.level}</span>
+                      <span className="text-sm font-bold text-primary-foreground">{plan.name}</span>
+                    </div>
+                    <p className="text-2xl font-extrabold text-primary-foreground mb-3">{plan.price}<span className="text-xs text-muted-foreground">/mo</span></p>
+                    <ul className="space-y-1.5">
+                      {plan.features.map((f) => (
+                        <li key={f} className="flex items-start gap-1.5 text-xs text-foreground">
+                          <CheckCircle className="w-3.5 h-3.5 text-neon-green shrink-0 mt-0.5" /> {f}
+                        </li>
+                      ))}
+                    </ul>
+                    {!plan.unlocked && (
+                      <button className="mt-4 w-full bg-secondary hover:bg-secondary/80 text-foreground py-2 rounded-xl text-xs font-bold transition-colors">
+                        Upgrade
+                      </button>
+                    )}
                   </div>
-                  <p className="text-2xl font-extrabold text-primary-foreground mb-3">{plan.price}<span className="text-xs text-muted-foreground">/mo</span></p>
-                  <ul className="space-y-1.5">
-                    {plan.features.map((f) => (
-                      <li key={f} className="flex items-center gap-1.5 text-xs text-foreground">
-                        <CheckCircle className="w-3.5 h-3.5 text-neon-green" /> {f}
-                      </li>
-                    ))}
-                  </ul>
-                  {!plan.unlocked && (
-                    <button className="mt-4 w-full bg-secondary hover:bg-secondary/80 text-foreground py-2 rounded-xl text-xs font-bold transition-colors">
-                      Upgrade
-                    </button>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
           </motion.div>
         )}

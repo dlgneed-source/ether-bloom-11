@@ -71,8 +71,17 @@
 
 @layer utilities {
   .glass {
-    @apply bg-card/60 backdrop-blur-xl border border-border/50;
+    @apply bg-card/60 border border-border/50;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     box-shadow: inset 0 1px 1px hsl(0 0% 100% / 0.08);
+  }
+  .glass-white {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.3);
   }
   .glass-strong {
     @apply bg-card/80 backdrop-blur-2xl border border-border/60;
@@ -110,11 +119,15 @@
   display: flex;
   width: max-content;
   animation: slide-left 50s linear infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
 }
 .animate-slider-right {
   display: flex;
   width: max-content;
   animation: slide-right 60s linear infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
 }
 
 /* Pulse ring animation */

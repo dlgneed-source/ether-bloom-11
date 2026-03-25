@@ -4,6 +4,7 @@ import Landing from '@/components/Landing';
 import InternalHeader from '@/components/InternalHeader';
 import InternalSidebar from '@/components/InternalSidebar';
 import Dashboard from '@/components/Dashboard';
+import ReferralEngine from '@/components/ReferralEngine';
 import CommunityLounge from '@/components/CommunityLounge';
 import EdTechSpace from '@/components/EdTechSpace';
 import AIToolsHub from '@/components/AIToolsHub';
@@ -28,7 +29,6 @@ const Index: React.FC = () => {
 
   return (
     <div className="min-h-screen flex bg-[image:var(--gradient-dashboard)] text-foreground font-sans relative">
-      {/* Sidebar — desktop persistent, mobile overlay */}
       <InternalSidebar
         open={sidebarOpen || !isMobile}
         activePanel={activePanel}
@@ -36,7 +36,6 @@ const Index: React.FC = () => {
         onClose={() => setSidebarOpen(false)}
       />
 
-      {/* Main content area */}
       <div className="flex-1 flex flex-col min-h-screen">
         <InternalHeader
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
@@ -53,13 +52,13 @@ const Index: React.FC = () => {
             className="flex-1 overflow-y-auto pb-20 lg:pb-4"
           >
             {activePanel === 'dashboard' && <Dashboard />}
+            {activePanel === 'referral' && <ReferralEngine />}
             {activePanel === 'community' && <CommunityLounge />}
             {activePanel === 'edtech' && <EdTechSpace />}
             {activePanel === 'aitools' && <AIToolsHub />}
           </motion.main>
         </AnimatePresence>
 
-        {/* Bottom nav — mobile only */}
         {isMobile && <BottomNav activePanel={activePanel} onNavigate={setActivePanel} />}
       </div>
     </div>

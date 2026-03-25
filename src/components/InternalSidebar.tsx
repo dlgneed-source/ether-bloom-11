@@ -12,7 +12,7 @@ import type { PanelId } from '@/components/BottomNav';
 
 const navItems: { id: PanelId; label: string; icon: React.ElementType }[] = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'dashboard', label: 'Referral Engine', icon: Network },
+  { id: 'referral', label: 'Referral Engine', icon: Network },
   { id: 'aitools', label: 'AI Hub', icon: Sparkles },
   { id: 'edtech', label: 'EdTech LMS', icon: GraduationCap },
   { id: 'community', label: 'Community Lounge', icon: MessageCircle },

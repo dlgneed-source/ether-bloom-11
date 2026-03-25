@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, MessageCircle, GraduationCap, Sparkles } from 'lucide-react';
+import { LayoutDashboard, Network, MessageCircle, GraduationCap, Sparkles } from 'lucide-react';
 
 export type PanelId = 'dashboard' | 'referral' | 'community' | 'edtech' | 'aitools';
 
@@ -11,6 +11,7 @@ interface BottomNavProps {
 
 const navItems: { id: PanelId; label: string; icon: React.ElementType }[] = [
   { id: 'dashboard', label: 'Hub', icon: LayoutDashboard },
+  { id: 'referral', label: 'Referral', icon: Network },
   { id: 'community', label: 'Lounge', icon: MessageCircle },
   { id: 'edtech', label: 'Learn', icon: GraduationCap },
   { id: 'aitools', label: 'AI Tools', icon: Sparkles },

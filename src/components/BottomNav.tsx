@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { LayoutDashboard, MessageCircle, GraduationCap, Sparkles } from 'lucide-react';
 
-export type PanelId = 'dashboard' | 'community' | 'edtech' | 'aitools';
+export type PanelId = 'dashboard' | 'referral' | 'community' | 'edtech' | 'aitools';
 
 interface BottomNavProps {
   activePanel: PanelId;

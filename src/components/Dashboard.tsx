@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Wallet, ArrowUpRight, ArrowDownLeft, Users, TrendingUp, ChevronDown, ChevronRight, Share2, Clock, DollarSign } from 'lucide-react';
+import { Wallet, ArrowUpRight, ArrowDownLeft, Users, TrendingUp, ChevronDown, ChevronRight, Share2, Clock, DollarSign, Award, Droplets, Zap, GitBranch } from 'lucide-react';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -95,6 +95,20 @@ const recentTransactions = [
   { id: 4, type: 'Referral Bonus', amount: '+$15.00', time: '2d ago', status: 'Completed' },
 ];
 
+const planBadges = [
+  { name: 'Plan 1', price: '$7', active: true },
+  { name: 'Plan 2', price: '$14', active: false },
+  { name: 'Plan 3', price: '$40', active: false },
+  { name: 'Plan 4', price: '$150', active: false },
+];
+
+const poolStats = [
+  { label: 'Leader Pool', value: '$2,180', colorClass: 'text-yellow-400' },
+  { label: 'Reward Pool', value: '$1,450', colorClass: 'text-cyan-400' },
+  { label: 'Daily Income Plan', value: '$86.50', colorClass: 'text-primary' },
+  { label: 'Auto Filling Tree', value: '142 Nodes', colorClass: 'text-accent' },
+];
+
 const Dashboard: React.FC = () => {
   const [showTransactions, setShowTransactions] = useState(false);
 
@@ -122,22 +136,22 @@ const Dashboard: React.FC = () => {
           <p className="text-3xl sm:text-4xl font-extrabold text-primary-foreground tracking-tight">$4,892<span className="text-lg text-muted-foreground">.50</span></p>
           <p className="text-xs text-muted-foreground mt-1 font-mono">≈ 8.12 BNB</p>
           
-          {/* Action Buttons */}
+          {/* Action Buttons - Color coded */}
           <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             <button className="bg-gradient-to-r from-accent to-primary text-primary-foreground py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all glow-fuchsia flex items-center justify-center gap-1.5">
               <ArrowUpRight className="w-3.5 h-3.5" /> Withdraw
             </button>
-            <button className="bg-secondary hover:bg-secondary/80 border border-primary/20 text-foreground py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5">
-              <ArrowDownLeft className="w-3.5 h-3.5 text-neon-green" /> Deposit
+            <button className="bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-400 py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5">
+              <ArrowDownLeft className="w-3.5 h-3.5" /> Deposit
             </button>
-            <button className="bg-secondary hover:bg-secondary/80 border border-primary/20 text-foreground py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5">
-              <Share2 className="w-3.5 h-3.5 text-primary" /> Refer
+            <button className="bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-400 py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5">
+              <Share2 className="w-3.5 h-3.5" /> Refer
             </button>
             <button
               onClick={() => setShowTransactions(!showTransactions)}
-              className="bg-secondary hover:bg-secondary/80 border border-primary/20 text-foreground py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5"
+              className="bg-slate-500/20 hover:bg-slate-500/30 border border-slate-500/40 text-slate-400 py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5"
             >
-              <Clock className="w-3.5 h-3.5 text-accent" /> History
+              <Clock className="w-3.5 h-3.5" /> History
             </button>
           </div>
         </motion.div>
@@ -190,9 +204,19 @@ const Dashboard: React.FC = () => {
           </div>
         </motion.div>
 
+        {/* Pool Stats 2x2 Grid */}
+        <div className="grid grid-cols-2 gap-3">
+          {poolStats.map((stat, i) => (
+            <motion.div key={stat.label} initial="hidden" animate="visible" custom={3 + i * 0.5} variants={fadeUp} className="glass rounded-2xl p-4">
+              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-2">{stat.label}</p>
+              <p className={`text-lg sm:text-xl font-extrabold ${stat.colorClass}`}>{stat.value}</p>
+            </motion.div>
+          ))}
+        </div>
+
         {/* Commission Stats */}
         <div className="grid grid-cols-2 gap-3 sm:gap-4">
-          <motion.div initial="hidden" animate="visible" custom={3} variants={fadeUp} className="glass rounded-2xl p-4 sm:p-5">
+          <motion.div initial="hidden" animate="visible" custom={5} variants={fadeUp} className="glass rounded-2xl p-4 sm:p-5">
             <div className="flex items-center gap-2 mb-3">
               <Users className="w-4 h-4 text-accent" />
               <span className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase tracking-widest">Level 1</span>
@@ -200,7 +224,7 @@ const Dashboard: React.FC = () => {
             <p className="text-xl sm:text-2xl font-extrabold text-primary-foreground">$1,240</p>
             <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">24 Referrals • 5% rate</p>
           </motion.div>
-          <motion.div initial="hidden" animate="visible" custom={4} variants={fadeUp} className="glass rounded-2xl p-4 sm:p-5">
+          <motion.div initial="hidden" animate="visible" custom={6} variants={fadeUp} className="glass rounded-2xl p-4 sm:p-5">
             <div className="flex items-center gap-2 mb-3">
               <Users className="w-4 h-4 text-primary" />
               <span className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase tracking-widest">Level 2</span>
@@ -210,8 +234,24 @@ const Dashboard: React.FC = () => {
           </motion.div>
         </div>
 
+        {/* Plan Badges */}
+        <motion.div initial="hidden" animate="visible" custom={7} variants={fadeUp} className="flex items-center gap-2 flex-wrap">
+          {planBadges.map((plan) => (
+            <div
+              key={plan.name}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                plan.active
+                  ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-400/60 shadow-[0_0_12px_rgba(234,179,8,0.4)]'
+                  : 'bg-secondary text-muted-foreground border border-border/30'
+              }`}
+            >
+              {plan.name} <span className="text-[10px] opacity-80">{plan.price}</span>
+            </div>
+          ))}
+        </motion.div>
+
         {/* Referral Tree */}
-        <motion.div initial="hidden" animate="visible" custom={5} variants={fadeUp} className="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6">
+        <motion.div initial="hidden" animate="visible" custom={8} variants={fadeUp} className="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6">
           <h2 className="text-sm sm:text-base font-bold text-primary-foreground mb-4 flex items-center gap-2">
             <Users className="w-4 h-4 text-primary" /> Referral Tree
             <span className="ml-auto text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold">Live</span>

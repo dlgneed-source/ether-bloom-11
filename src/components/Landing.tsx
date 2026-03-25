@@ -38,10 +38,10 @@ const Landing: React.FC<LandingProps> = ({ onLogin }) => {
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/15 rounded-full blur-[140px]" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-accent/20 rounded-full blur-[120px]" />
-        <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-[0.15] mix-blend-screen blur-[2px]">
+        <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-[0.15]">
           <source src="https://res.cloudinary.com/da9zypkoj/video/upload/v1774124881/1774124802516_i64wyo.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background/95" />
+        <div className="absolute inset-0 bg-background/70" />
       </div>
 
       {/* Header */}

@@ -114,7 +114,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="flex-1 overflow-y-auto pb-20 scrollbar-hide">
-      <div className="p-4 sm:p-6 max-w-5xl mx-auto flex flex-col gap-4 sm:gap-6">
+      <div className="p-4 sm:p-6 max-w-5xl mx-auto flex flex-col gap-6">
         {/* Welcome */}
         <motion.div initial="hidden" animate="visible" custom={0} variants={fadeUp}>
           <h1 className="text-xl sm:text-3xl font-bold text-primary-foreground mb-1">Welcome to your Workspace</h1>

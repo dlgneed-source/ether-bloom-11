@@ -9,6 +9,7 @@ import CommunityLounge from '@/components/CommunityLounge';
 import EdTechSpace from '@/components/EdTechSpace';
 import AIToolsHub from '@/components/AIToolsHub';
 import AdminPanel from '@/components/AdminPanel';
+import ProfilePanel from '@/components/ProfilePanel';
 import BottomNav, { type PanelId } from '@/components/BottomNav';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -29,12 +30,13 @@ const Index: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex bg-[image:var(--gradient-dashboard)] text-foreground font-sans relative w-full max-w-full overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-[image:var(--gradient-dashboard)] text-foreground font-sans relative w-full max-w-full overflow-x-hidden">
       <InternalSidebar
-        open={sidebarOpen || !isMobile}
+        open={sidebarOpen}
         activePanel={activePanel}
         onNavigate={setActivePanel}
         onClose={() => setSidebarOpen(false)}
+        onLogout={() => setIsLoggedIn(false)}
       />
 
       <div className="flex-1 flex flex-col min-h-screen min-w-0 overflow-x-hidden">
@@ -58,10 +60,11 @@ const Index: React.FC = () => {
             {activePanel === 'edtech' && <EdTechSpace />}
             {activePanel === 'aitools' && <AIToolsHub />}
             {activePanel === 'admin' && <AdminPanel />}
+            {activePanel === 'profile' && <ProfilePanel />}
           </motion.main>
         </AnimatePresence>
 
-        {isMobile && <BottomNav activePanel={activePanel} onNavigate={setActivePanel} />}
+        <BottomNav activePanel={activePanel} onNavigate={setActivePanel} />
       </div>
     </div>
   );

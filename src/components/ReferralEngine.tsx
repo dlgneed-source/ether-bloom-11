@@ -157,7 +157,7 @@ const ReferralEngine: React.FC = () => {
                 <Wallet className="w-5 h-5 text-primary" />
                 <span className="text-xs font-bold text-muted-foreground uppercase tracking-[0.15em]">User Funds</span>
               </div>
-              <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <p className="text-[10px] text-muted-foreground mb-0.5">Live Wallet Balance</p>
                   <p className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">$12,840<span className="text-base text-muted-foreground">.00</span></p>
@@ -168,8 +168,8 @@ const ReferralEngine: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              <button className="bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 py-2.5 px-4 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1.5">
+            <div className="grid grid-cols-2 gap-2 w-full">
+              <button className="bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 py-2.5 px-4 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1.5 min-h-[44px]">
                 <ArrowDownLeft className="w-3.5 h-3.5" /> Deposit
               </button>
               <button onClick={() => setWithdrawOpen(true)}
@@ -187,7 +187,7 @@ const ReferralEngine: React.FC = () => {
         </motion.div>
 
         {/* Row 2: 4 KPI Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {[
             { icon: Shield, label: 'Active Level', value: 'Plan 3', sub: 'Pro', color: 'text-primary' },
             { icon: Clock, label: 'Next Flushout', value: '12d 04:30', sub: 'Remaining', color: 'text-accent' },
@@ -231,7 +231,8 @@ const ReferralEngine: React.FC = () => {
 
         {/* Row 4: Flushout Distribution Ledger */}
         <motion.div initial="hidden" animate="visible" custom={4} variants={fadeUp}
-          className="glass rounded-2xl p-4 sm:p-6 border border-border/20 overflow-x-auto">
+          className="glass rounded-2xl p-4 sm:p-6 border border-border/20">
+          <div className="overflow-x-auto">
           <h2 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-primary" /> Flushout Distribution Ledger
           </h2>

@@ -205,7 +205,7 @@ const Dashboard: React.FC = () => {
         </motion.div>
 
         {/* Pool Stats 2x2 Grid */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {poolStats.map((stat, i) => (
             <motion.div key={stat.label} initial="hidden" animate="visible" custom={3 + i * 0.5} variants={fadeUp} className="glass rounded-2xl p-4">
               <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-2">{stat.label}</p>
@@ -215,7 +215,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Commission Stats */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <motion.div initial="hidden" animate="visible" custom={5} variants={fadeUp} className="glass rounded-2xl p-4 sm:p-5">
             <div className="flex items-center gap-2 mb-3">
               <Users className="w-4 h-4 text-accent" />

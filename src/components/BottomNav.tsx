@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Network, MessageCircle, GraduationCap, Sparkles, Shield } from 'lucide-react';
+import { LayoutDashboard, Network, MessageCircle, GraduationCap, Sparkles } from 'lucide-react';
 
 export type PanelId = 'dashboard' | 'referral' | 'community' | 'edtech' | 'aitools' | 'admin';
 
@@ -15,13 +15,12 @@ const navItems: { id: PanelId; label: string; icon: React.ElementType }[] = [
   { id: 'community', label: 'Lounge', icon: MessageCircle },
   { id: 'edtech', label: 'Learn', icon: GraduationCap },
   { id: 'aitools', label: 'AI Tools', icon: Sparkles },
-  { id: 'admin', label: 'Admin', icon: Shield },
 ];
 
 const BottomNav: React.FC<BottomNavProps> = ({ activePanel, onNavigate }) => {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 glass-strong border-t border-primary/20 safe-area-bottom">
-      <div className="flex items-center justify-around h-16 max-w-lg mx-auto px-2">
+      <div className="grid grid-cols-5 w-full h-16 max-w-lg mx-auto">
         {navItems.map((item) => {
           const isActive = activePanel === item.id;
           const Icon = item.icon;
@@ -29,7 +28,7 @@ const BottomNav: React.FC<BottomNavProps> = ({ activePanel, onNavigate }) => {
             <button
               key={item.id}
               onClick={() => onNavigate(item.id)}
-              className="flex flex-col items-center justify-center gap-0.5 flex-1 py-1 relative"
+              className="flex flex-col items-center justify-center gap-0.5 py-1 relative min-h-[44px] min-w-0"
             >
               {isActive && (
                 <motion.div

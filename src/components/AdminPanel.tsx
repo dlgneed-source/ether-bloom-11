@@ -6,18 +6,34 @@ import {
 } from 'lucide-react';
 
 /* ── Mock Data ── */
-const withdrawals = [
-  { id: 1, address: '0x4F2e...c91B', type: 'Withdraw' as const, amount: 450.00, status: 'Pending' as const },
-  { id: 2, address: '0xA1b3...7d2F', type: 'Deposit' as const, amount: 1200.00, status: 'Approved' as const },
-  { id: 3, address: '0x8Fc1...a42E', type: 'Withdraw' as const, amount: 85.50, status: 'Pending' as const },
-  { id: 4, address: '0xD4e9...1f3A', type: 'Withdraw' as const, amount: 320.00, status: 'Rejected' as const },
-  { id: 5, address: '0x71Aa...b08C', type: 'Deposit' as const, amount: 2500.00, status: 'Pending' as const },
+interface FundRequest {
+  id: number;
+  address: string;
+  type: 'Deposit' | 'Withdraw';
+  amount: number;
+  status: RequestStatus;
+}
+
+const withdrawals: FundRequest[] = [
+  { id: 1, address: '0x4F2e...c91B', type: 'Withdraw', amount: 450.00, status: 'Pending' },
+  { id: 2, address: '0xA1b3...7d2F', type: 'Deposit', amount: 1200.00, status: 'Approved' },
+  { id: 3, address: '0x8Fc1...a42E', type: 'Withdraw', amount: 85.50, status: 'Pending' },
+  { id: 4, address: '0xD4e9...1f3A', type: 'Withdraw', amount: 320.00, status: 'Rejected' },
+  { id: 5, address: '0x71Aa...b08C', type: 'Deposit', amount: 2500.00, status: 'Pending' },
 ];
 
-const hashApprovals = [
-  { id: 1, txHash: '0xabc1...def4', user: '0x4F2e...c91B', reason: 'Gas estimation failed', status: 'Pending' as const },
-  { id: 2, txHash: '0x9f82...7a1b', user: '0xA1b3...7d2F', reason: 'Nonce mismatch', status: 'Pending' as const },
-  { id: 3, txHash: '0xe31c...04d9', user: '0x8Fc1...a42E', reason: 'Contract revert', status: 'Resolved' as const },
+interface HashRequest {
+  id: number;
+  txHash: string;
+  user: string;
+  reason: string;
+  status: RequestStatus;
+}
+
+const hashApprovals: HashRequest[] = [
+  { id: 1, txHash: '0xabc1...def4', user: '0x4F2e...c91B', reason: 'Gas estimation failed', status: 'Pending' },
+  { id: 2, txHash: '0x9f82...7a1b', user: '0xA1b3...7d2F', reason: 'Nonce mismatch', status: 'Pending' },
+  { id: 3, txHash: '0xe31c...04d9', user: '0x8Fc1...a42E', reason: 'Contract revert', status: 'Resolved' },
 ];
 
 const securityLogs = [
@@ -31,7 +47,7 @@ const securityLogs = [
   '[2024-01-15 14:30:20] GET  /api/v1/modules  — 0x71Aa...b08C — 200 OK',
 ];
 
-type RequestStatus = 'Pending' | 'Approved' | 'Rejected' | 'Resolved';
+// moved above
 
 const statusStyle = (s: RequestStatus) => {
   switch (s) {

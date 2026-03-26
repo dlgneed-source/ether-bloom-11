@@ -5,6 +5,8 @@ import {
   Check, X, Ban, Zap, Terminal, Send, RefreshCw, Copy, Shield,
 } from 'lucide-react';
 
+type RequestStatus = 'Pending' | 'Approved' | 'Rejected' | 'Resolved';
+
 /* ── Mock Data ── */
 interface FundRequest {
   id: number;

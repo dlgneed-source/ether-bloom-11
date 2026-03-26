@@ -50,7 +50,7 @@ const Index: React.FC = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="flex-1 overflow-y-auto pb-20 lg:pb-4"
+            className="flex-1 overflow-y-auto pb-20 lg:pb-4 min-w-0 w-full"
           >
             {activePanel === 'dashboard' && <Dashboard />}
             {activePanel === 'referral' && <ReferralEngine />}

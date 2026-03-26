@@ -79,21 +79,21 @@ const AdminPanel: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-6">
+    <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-6 w-full max-w-full">
       {/* ── Top Bar ── */}
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
         <div className="flex items-center gap-6">
           <div>
             <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Live Treasury Analytics</p>
-            <div className="flex items-baseline gap-4 mt-1">
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4 mt-1">
               <div className="flex items-center gap-2">
                 <DollarSign className="w-4 h-4 text-purple-400" />
-                <span className="text-xl font-bold text-foreground">$1,248,392</span>
+                <span className="text-lg sm:text-xl font-bold text-foreground">$1,248,392</span>
                 <span className="text-[10px] text-muted-foreground">Platform Balance</span>
               </div>
-              <div className="hidden sm:flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-emerald-400" />
-                <span className="text-xl font-bold text-foreground">$4.2M</span>
+                <span className="text-lg sm:text-xl font-bold text-foreground">$4.2M</span>
                 <span className="text-[10px] text-muted-foreground">TVL</span>
               </div>
             </div>
@@ -288,7 +288,7 @@ const AdminPanel: React.FC = () => {
             </div>
             <div className="bg-black/40 p-4 max-h-60 overflow-y-auto scrollbar-hide">
               {securityLogs.map((log, i) => (
-                <p key={i} className="font-mono text-[10px] leading-5 text-purple-200/70 whitespace-nowrap">
+                <p key={i} className="font-mono text-[10px] leading-5 text-purple-200/70 whitespace-pre-wrap break-all">
                   {log}
                 </p>
               ))}

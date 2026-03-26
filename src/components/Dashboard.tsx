@@ -137,19 +137,19 @@ const Dashboard: React.FC = () => {
           <p className="text-xs text-muted-foreground mt-1 font-mono">≈ 8.12 BNB</p>
           
           {/* Action Buttons - Color coded */}
-          <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-            <button className="bg-gradient-to-r from-accent to-primary text-primary-foreground py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all glow-fuchsia flex items-center justify-center gap-1.5">
+          <div className="mt-5 grid grid-cols-2 gap-2 sm:gap-3">
+            <button className="bg-gradient-to-r from-accent to-primary text-primary-foreground py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all glow-fuchsia flex items-center justify-center gap-1.5 min-h-[44px]">
               <ArrowUpRight className="w-3.5 h-3.5" /> Withdraw
             </button>
-            <button className="bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-400 py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5">
+            <button className="bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-400 py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 min-h-[44px]">
               <ArrowDownLeft className="w-3.5 h-3.5" /> Deposit
             </button>
-            <button className="bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-400 py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5">
+            <button className="bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-400 py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 min-h-[44px]">
               <Share2 className="w-3.5 h-3.5" /> Refer
             </button>
             <button
               onClick={() => setShowTransactions(!showTransactions)}
-              className="bg-slate-500/20 hover:bg-slate-500/30 border border-slate-500/40 text-slate-400 py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5"
+              className="bg-slate-500/20 hover:bg-slate-500/30 border border-slate-500/40 text-slate-400 py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 min-h-[44px]"
             >
               <Clock className="w-3.5 h-3.5" /> History
             </button>
@@ -205,7 +205,7 @@ const Dashboard: React.FC = () => {
         </motion.div>
 
         {/* Pool Stats 2x2 Grid */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {poolStats.map((stat, i) => (
             <motion.div key={stat.label} initial="hidden" animate="visible" custom={3 + i * 0.5} variants={fadeUp} className="glass rounded-2xl p-4">
               <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-2">{stat.label}</p>
@@ -215,7 +215,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Commission Stats */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <motion.div initial="hidden" animate="visible" custom={5} variants={fadeUp} className="glass rounded-2xl p-4 sm:p-5">
             <div className="flex items-center gap-2 mb-3">
               <Users className="w-4 h-4 text-accent" />

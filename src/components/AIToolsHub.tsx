@@ -107,7 +107,7 @@ const AIToolsHub: React.FC = () => {
               {/* Aspect Ratio */}
               <div>
                 <label className="text-xs text-muted-foreground mb-1.5 block">Aspect Ratio</label>
-                <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                   {aspectRatios.map((r) => (
                     <button
                       key={r}
@@ -144,7 +144,7 @@ const AIToolsHub: React.FC = () => {
             {/* Recent Generations */}
             <div>
               <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest mb-3">Recent Generations</p>
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {recentThumbs.map((t) => (
                   <div
                     key={t.id}

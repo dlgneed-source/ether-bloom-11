@@ -6,6 +6,7 @@ import {
   Sparkles,
   GraduationCap,
   MessageCircle,
+  Shield,
   Settings,
 } from 'lucide-react';
 import type { PanelId } from '@/components/BottomNav';
@@ -16,6 +17,7 @@ const navItems: { id: PanelId; label: string; icon: React.ElementType }[] = [
   { id: 'aitools', label: 'AI Hub', icon: Sparkles },
   { id: 'edtech', label: 'EdTech LMS', icon: GraduationCap },
   { id: 'community', label: 'Community Lounge', icon: MessageCircle },
+  { id: 'admin', label: 'Admin Panel', icon: Shield },
   { id: 'dashboard', label: 'Settings', icon: Settings },
 ];
 

@@ -16,6 +16,13 @@ const menuItems: { label: string; icon: React.ElementType; action: string }[] = 
   { label: 'Language', icon: Globe, action: 'language' },
 ];
 
+const sidebarPlans = [
+  { name: 'Plan 1', price: '$7' },
+  { name: 'Plan 2', price: '$14' },
+  { name: 'Plan 3', price: '$40' },
+  { name: 'Plan 4', price: '$150' },
+];
+
 interface InternalSidebarProps {
   open: boolean;
   activePanel: PanelId;

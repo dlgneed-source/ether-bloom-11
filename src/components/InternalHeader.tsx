@@ -15,10 +15,10 @@ const InternalHeader: React.FC<InternalHeaderProps> = ({ onToggleSidebar, sideba
     <header className="flex items-center justify-between h-14 px-4 border-b border-border/40 bg-white/[0.03] backdrop-blur-md sticky top-0 z-30">
       {/* Left: sidebar toggle + logo */}
       <div className="flex items-center gap-3">
-        <button onClick={onToggleSidebar} className="p-1.5 rounded-lg hover:bg-white/5 transition-colors">
+        <button onClick={onToggleSidebar} className="p-2.5 rounded-lg hover:bg-white/5 transition-colors">
           {sidebarOpen ? <ChevronLeft className="w-5 h-5 text-muted-foreground" /> : <Menu className="w-5 h-5 text-muted-foreground" />}
         </button>
-        <svg className="h-8 w-auto" viewBox="0 0 600 80" xmlns="http://www.w3.org/2000/svg">
+        <svg className="h-8 sm:h-10 w-auto object-contain" viewBox="0 0 600 80" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="hdrGrad" x1="0%" y1="0%" x2="100%">
               <stop offset="0%" stopColor="hsl(270, 100%, 70%)" />

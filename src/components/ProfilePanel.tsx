@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Camera, Users, Award, Calendar, Wallet, TrendingUp, Copy, Check } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Camera, Users, Award, Calendar, Wallet, TrendingUp, Copy, Check, Settings, ChevronRight, ShieldCheck, Headphones, X } from 'lucide-react';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -10,6 +10,7 @@ const fadeUp = {
 const ProfilePanel: React.FC = () => {
   const [profilePic, setProfilePic] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -25,6 +26,12 @@ const ProfilePanel: React.FC = () => {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  const settingsOptions = [
+    { label: 'Update Wallet', icon: Wallet, desc: 'Change your connected wallet address' },
+    { label: '2-Step Verification', icon: ShieldCheck, desc: 'Enable extra security for your account' },
+    { label: 'Contact Support', icon: Headphones, desc: 'Get help from our team' },
+  ];
 
   return (
     <div className="flex-1 overflow-y-auto pb-20 scrollbar-hide">
@@ -111,6 +118,62 @@ const ProfilePanel: React.FC = () => {
             </div>
           </div>
         </motion.div>
+
+        {/* Settings Button */}
+        <motion.div initial="hidden" animate="visible" custom={6} variants={fadeUp}>
+          <button
+            onClick={() => setShowSettings(true)}
+            className="w-full flex items-center justify-between px-5 py-4 rounded-2xl bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] transition-all min-h-[52px]"
+          >
+            <div className="flex items-center gap-3">
+              <Settings className="w-5 h-5 text-muted-foreground" />
+              <span className="text-sm font-semibold text-muted-foreground">Settings</span>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+          </button>
+        </motion.div>
+
+        {/* Settings Modal */}
+        <AnimatePresence>
+          {showSettings && (
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm"
+              onClick={() => setShowSettings(false)}
+            >
+              <motion.div
+                initial={{ y: 60, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 60, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+                className="w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl bg-background border border-white/10 p-5 pb-8"
+              >
+                <div className="flex items-center justify-between mb-5">
+                  <h3 className="text-base font-bold text-foreground">Settings</h3>
+                  <button onClick={() => setShowSettings(false)} className="text-muted-foreground hover:text-foreground">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  {settingsOptions.map((opt) => {
+                    const Icon = opt.icon;
+                    return (
+                      <button
+                        key={opt.label}
+                        className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] transition-all min-h-[52px] text-left"
+                      >
+                        <Icon className="w-5 h-5 text-primary shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-foreground">{opt.label}</p>
+                          <p className="text-[10px] text-muted-foreground">{opt.desc}</p>
+                        </div>
+                        <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
+                      </button>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

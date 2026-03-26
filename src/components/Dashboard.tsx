@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Wallet, ArrowUpRight, ArrowDownLeft, Users, TrendingUp, ChevronDown, ChevronRight, Share2, Clock, DollarSign, Award, Droplets, Zap, GitBranch, X, CheckCircle, BookOpen, Code2, Shield, Brain } from 'lucide-react';
+import { Wallet, ArrowUpRight, ArrowDownLeft, Users, TrendingUp, ChevronDown, ChevronRight, Share2, Clock, DollarSign, Award, X, CheckCircle, BookOpen, Code2, Shield, Brain, Banknote } from 'lucide-react';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -141,9 +141,19 @@ const Dashboard: React.FC = () => {
           <p className="text-muted-foreground text-xs sm:text-sm font-medium">Manage your network, AI credits, and earnings.</p>
         </motion.div>
 
-        {/* Balance Card */}
-        <motion.div initial="hidden" animate="visible" custom={1} variants={fadeUp} className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 relative overflow-hidden bg-white/[0.04] border border-white/10">
-          <div className="absolute top-0 right-0 w-40 h-40 bg-primary/10 rounded-full blur-[60px] pointer-events-none" />
+        {/* Balance Card — Glowing Glassmorphism */}
+        <motion.div
+          initial="hidden" animate="visible" custom={1} variants={fadeUp}
+          className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 relative overflow-hidden
+            bg-white/[0.04] backdrop-blur-xl
+            border border-primary/20
+            shadow-[0_0_30px_-5px_hsl(var(--primary)/0.25),inset_0_1px_0_0_rgba(255,255,255,0.06)]"
+        >
+          {/* Corner glow rays */}
+          <div className="absolute -top-10 -right-10 w-48 h-48 bg-primary/15 rounded-full blur-[80px] pointer-events-none" />
+          <div className="absolute -bottom-8 -left-8 w-36 h-36 bg-accent/10 rounded-full blur-[60px] pointer-events-none" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Wallet className="w-5 h-5 text-primary" />
@@ -155,27 +165,38 @@ const Dashboard: React.FC = () => {
           </div>
           <p className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">$4,892<span className="text-lg text-muted-foreground">.50</span></p>
           <p className="text-xs text-muted-foreground mt-1 font-mono">≈ 8.12 BNB</p>
-          
-          {/* Action Buttons */}
-          <div className="mt-5 flex flex-col gap-2 sm:grid sm:grid-cols-2 sm:gap-3">
-            <button className="bg-gradient-to-r from-accent to-primary text-primary-foreground py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 min-h-[48px] w-full">
-              <ArrowUpRight className="w-4 h-4 shrink-0" /> Withdraw
-            </button>
-            <button
-              onClick={() => setShowDepositPlans(true)}
-              className="bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-400 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 min-h-[48px] w-full"
-            >
-              <ArrowDownLeft className="w-4 h-4 shrink-0" /> Deposit
-            </button>
-            <button className="bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-400 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 min-h-[48px] w-full">
-              <Share2 className="w-4 h-4 shrink-0" /> Refer
-            </button>
-            <button
-              onClick={() => setShowTransactions(!showTransactions)}
-              className="bg-slate-500/20 hover:bg-slate-500/30 border border-slate-500/40 text-slate-400 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 min-h-[48px] w-full"
-            >
-              <Clock className="w-4 h-4 shrink-0" /> History
-            </button>
+
+          {/* Action Buttons — 2x2 grid with curved divider */}
+          <div className="mt-5 relative">
+            {/* Curved glowing divider between rows */}
+            <div className="absolute left-[10%] right-[10%] top-1/2 -translate-y-1/2 h-[1px] z-10 pointer-events-none">
+              <svg viewBox="0 0 200 8" preserveAspectRatio="none" className="w-full h-2">
+                <path d="M0 4 Q50 0 100 4 Q150 8 200 4" stroke="hsl(var(--primary)/0.35)" strokeWidth="1" fill="none" />
+              </svg>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              {/* Row 1: Withdraw + Deposit */}
+              <button className="bg-gradient-to-r from-primary/20 to-accent/20 border border-primary/30 text-primary py-3 px-3 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 min-h-[44px] hover:border-primary/50 hover:shadow-[0_0_12px_hsl(var(--primary)/0.2)]">
+                <ArrowUpRight className="w-4 h-4 shrink-0" /> Withdraw
+              </button>
+              <button
+                onClick={() => setShowDepositPlans(true)}
+                className="bg-gradient-to-r from-yellow-600/25 to-amber-500/25 border border-yellow-500/35 text-yellow-400 py-3 px-3 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 min-h-[44px] hover:border-yellow-400/50 hover:shadow-[0_0_12px_rgba(234,179,8,0.2)]"
+              >
+                <ArrowDownLeft className="w-4 h-4 shrink-0" /> Deposit
+              </button>
+              {/* Row 2: Refer + History */}
+              <button className="bg-gradient-to-r from-blue-600/25 to-blue-500/20 border border-blue-500/35 text-blue-400 py-3 px-3 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 min-h-[44px] hover:border-blue-400/50 hover:shadow-[0_0_12px_rgba(59,130,246,0.2)]">
+                <Share2 className="w-4 h-4 shrink-0" /> Refer
+              </button>
+              <button
+                onClick={() => setShowTransactions(!showTransactions)}
+                className="bg-white/[0.04] border border-white/10 text-muted-foreground py-3 px-3 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 min-h-[44px] hover:bg-white/[0.08] hover:text-foreground"
+              >
+                <Clock className="w-4 h-4 shrink-0" /> History
+              </button>
+            </div>
           </div>
         </motion.div>
 
@@ -213,7 +234,6 @@ const Dashboard: React.FC = () => {
                     );
                   })}
                 </div>
-
                 {/* Daily Income Plan */}
                 <div className="mt-4 rounded-xl bg-white/[0.04] border border-white/10 p-4">
                   <div className="flex items-center gap-2 mb-2">
@@ -253,28 +273,36 @@ const Dashboard: React.FC = () => {
           </motion.div>
         )}
 
-        {/* Invested Income Card */}
-        <motion.div initial="hidden" animate="visible" custom={2} variants={fadeUp} className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 relative overflow-hidden bg-white/[0.04] border border-white/10">
-          <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent/10 rounded-full blur-[50px] pointer-events-none" />
-          <div className="flex items-center gap-2 mb-3">
-            <DollarSign className="w-5 h-5 text-emerald-400" />
-            <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Invested Income</span>
+        {/* Daily Salary Card (replaces Invested Income) */}
+        <motion.div
+          initial="hidden" animate="visible" custom={2} variants={fadeUp}
+          className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 relative overflow-hidden
+            bg-white/[0.04] border border-emerald-500/15
+            shadow-[0_0_20px_-5px_rgba(16,185,129,0.15)]"
+        >
+          <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-emerald-500/8 rounded-full blur-[50px] pointer-events-none" />
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Banknote className="w-5 h-5 text-emerald-400" />
+              <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Daily Salary</span>
+            </div>
+            <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">Active</span>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-[10px] text-muted-foreground mb-1">Total Invested</p>
-              <p className="text-xl sm:text-2xl font-extrabold text-foreground">$2,500<span className="text-sm text-muted-foreground">.00</span></p>
+              <p className="text-[10px] text-muted-foreground mb-1">Today's Earning</p>
+              <p className="text-xl sm:text-2xl font-extrabold text-emerald-400">$86<span className="text-sm text-emerald-400/60">.50</span></p>
             </div>
             <div>
-              <p className="text-[10px] text-muted-foreground mb-1">Returns Earned</p>
-              <p className="text-xl sm:text-2xl font-extrabold text-emerald-400">$892<span className="text-sm text-muted-foreground/70">.50</span></p>
+              <p className="text-[10px] text-muted-foreground mb-1">Monthly Total</p>
+              <p className="text-xl sm:text-2xl font-extrabold text-foreground">$2,595<span className="text-sm text-muted-foreground">.00</span></p>
             </div>
           </div>
           <div className="mt-4 flex items-center gap-2">
             <div className="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
-              <div className="h-full w-[65%] bg-gradient-to-r from-accent to-primary rounded-full" />
+              <div className="h-full w-[86%] bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full" />
             </div>
-            <span className="text-[10px] font-bold text-primary">35.7% ROI</span>
+            <span className="text-[10px] font-bold text-emerald-400">86% Target</span>
           </div>
         </motion.div>
 

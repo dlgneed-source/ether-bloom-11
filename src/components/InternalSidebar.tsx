@@ -6,7 +6,6 @@ import {
   LogOut,
   Moon,
   Globe,
-  Crown,
 } from 'lucide-react';
 import type { PanelId } from '@/components/BottomNav';
 
@@ -17,12 +16,6 @@ const menuItems: { label: string; icon: React.ElementType; action: string }[] = 
   { label: 'Language', icon: Globe, action: 'language' },
 ];
 
-const sidebarPlans = [
-  { name: 'Plan 1', price: '$7' },
-  { name: 'Plan 2', price: '$14' },
-  { name: 'Plan 3', price: '$40' },
-  { name: 'Plan 4', price: '$150' },
-];
 
 interface InternalSidebarProps {
   open: boolean;
@@ -91,24 +84,8 @@ const InternalSidebar: React.FC<InternalSidebarProps> = ({ open, activePanel, on
             })}
           </nav>
 
-          {/* Premium Plans */}
-          <div className="px-3 mb-3">
-            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2 px-1">Premium Plans</p>
-            <div className="space-y-1">
-              {sidebarPlans.map((plan) => (
-                <button
-                  key={plan.name}
-                  className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-amber-500/10 to-yellow-600/10 border border-yellow-500/20 text-yellow-400 hover:from-amber-500/20 hover:to-yellow-600/20 transition-all duration-300 min-h-[40px]"
-                >
-                  <div className="flex items-center gap-2">
-                    <Crown className="w-3.5 h-3.5" />
-                    <span>{plan.name}</span>
-                  </div>
-                  <span className="text-xs opacity-70">{plan.price}</span>
-                </button>
-              ))}
-            </div>
-          </div>
+          {/* Spacer */}
+          <div className="flex-1" />
 
           {/* Social icons */}
           <div className="px-4 pb-2">

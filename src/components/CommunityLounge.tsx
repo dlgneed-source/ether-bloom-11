@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Hash, Lock, Send, Plus, Users, Info, ChevronDown, Smile, AtSign, Image, ArrowLeft } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Hash, Lock, Send, Plus, Users, Info, ChevronDown, Smile, AtSign, Image, ArrowLeft, LogIn } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 /* ── Data ── */
@@ -31,11 +31,12 @@ interface Msg {
 }
 
 const seedMessages: Msg[] = [
-  { id: 1, user: 'CryptoKing', initials: 'CK', text: 'Hey everyone! Just deployed my first smart contract on BEP-20 🚀', time: 'Today at 2:34 PM' },
-  { id: 2, user: 'AIDevSara', initials: 'AS', text: 'Nice work! Which tools did you use for verification?', time: 'Today at 2:35 PM' },
-  { id: 3, user: 'CryptoKing', initials: 'CK', text: 'Platform built-in verifier — super smooth, no manual ABI upload needed.', time: 'Today at 2:36 PM' },
-  { id: 4, user: 'Web3Wizard', initials: 'WW', text: 'Welcome aboard! Check the EdTech vault for Solidity deep-dives. Module 4 covers contract patterns.', time: 'Today at 2:38 PM' },
-  { id: 5, user: 'NodeRunner', initials: 'NR', text: 'Anyone running validator nodes? Getting solid yields on the testnet staking pool.', time: 'Today at 2:41 PM' },
+  { id: 1, user: 'CryptoKing', initials: 'CK', text: 'Hey everyone! Just deployed my first smart contract on BEP-20 🚀', time: '2:34 PM' },
+  { id: 2, user: 'AIDevSara', initials: 'AS', text: 'Nice work! Which tools did you use for verification?', time: '2:35 PM' },
+  { id: 3, user: 'CryptoKing', initials: 'CK', text: 'Platform built-in verifier — super smooth, no manual ABI upload needed.', time: '2:36 PM' },
+  { id: 4, user: 'You', initials: 'YO', text: 'That sounds great! I should try deploying one too.', time: '2:37 PM', isOwn: true },
+  { id: 5, user: 'Web3Wizard', initials: 'WW', text: 'Welcome aboard! Check the EdTech vault for Solidity deep-dives.', time: '2:38 PM' },
+  { id: 6, user: 'NodeRunner', initials: 'NR', text: 'Anyone running validator nodes? Getting solid yields on the testnet staking pool.', time: '2:41 PM' },
 ];
 
 const onlineVips = [
@@ -49,6 +50,7 @@ const onlineVips = [
 const CommunityLounge: React.FC = () => {
   const [messages, setMessages] = useState<Msg[]>(seedMessages);
   const [input, setInput] = useState('');
+  const [roomIdInput, setRoomIdInput] = useState('');
   const [activeChannel, setActiveChannel] = useState('general');
   const [activeDM, setActiveDM] = useState<string | null>(null);
   const [showChannels, setShowChannels] = useState(true);
@@ -56,15 +58,20 @@ const CommunityLounge: React.FC = () => {
   const [showVIP, setShowVIP] = useState(true);
   const [mobileShowChat, setMobileShowChat] = useState(false);
   const isMobile = useIsMobile();
+  const chatEndRef = useRef<HTMLDivElement>(null);
 
   const activeName = activeDM
     ? dmContacts.find(c => c.id === activeDM)?.name ?? ''
     : `#${activeChannel}`;
 
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
   const send = () => {
     if (!input.trim()) return;
     setMessages(prev => [...prev, {
-      id: Date.now(), user: 'You', initials: 'YO', text: input, time: 'Just now', isOwn: true,
+      id: Date.now(), user: 'You', initials: 'YO', text: input, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), isOwn: true,
     }]);
     setInput('');
   };
@@ -80,19 +87,30 @@ const CommunityLounge: React.FC = () => {
     if (isMobile) setMobileShowChat(true);
   };
 
-  const handleBack = () => {
-    setMobileShowChat(false);
-  };
-
   /* ── Navigation Pane ── */
   const navPane = (
     <div className="flex flex-col h-full">
-      <div className="px-4 pt-4 pb-3">
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Community</h2>
+      {/* Room ID Join Bar */}
+      <div className="px-3 pt-4 pb-3 border-b border-white/[0.06]">
+        <div className="flex items-center gap-2">
+          <input
+            value={roomIdInput}
+            onChange={e => setRoomIdInput(e.target.value)}
+            placeholder="Enter Room ID"
+            className="flex-1 bg-black/20 border border-white/[0.08] rounded-lg px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/40 transition-colors min-h-[40px]"
+          />
+          <button className="flex items-center gap-1.5 bg-primary/10 hover:bg-primary/20 border border-primary/30 text-primary text-xs font-bold px-3 py-2 rounded-lg transition-colors min-h-[40px] shrink-0">
+            <LogIn className="w-3.5 h-3.5" /> Join
+          </button>
+        </div>
+      </div>
+
+      <div className="px-4 pt-3 pb-2">
+        <h2 className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Community</h2>
       </div>
 
       {/* Channels */}
-      <button onClick={() => setShowChannels(!showChannels)} className="flex items-center gap-1 px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors">
+      <button onClick={() => setShowChannels(!showChannels)} className="flex items-center gap-1 px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors min-h-[40px]">
         <ChevronDown className={`w-3 h-3 transition-transform ${showChannels ? '' : '-rotate-90'}`} />
         Channels
       </button>
@@ -100,7 +118,7 @@ const CommunityLounge: React.FC = () => {
         <button
           key={ch.id}
           onClick={() => handleSelectChannel(ch.id)}
-          className={`flex items-center gap-2 mx-2 px-3 py-2.5 rounded-md text-sm transition-colors ${
+          className={`flex items-center gap-2 mx-2 px-3 py-2.5 rounded-md text-sm transition-colors min-h-[44px] ${
             !activeDM && activeChannel === ch.id
               ? 'bg-white/[0.08] text-foreground'
               : 'text-muted-foreground hover:text-foreground hover:bg-white/[0.04]'
@@ -115,12 +133,12 @@ const CommunityLounge: React.FC = () => {
       ))}
 
       {/* VIP */}
-      <button onClick={() => setShowVIP(!showVIP)} className="flex items-center gap-1 px-4 py-2 mt-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors">
+      <button onClick={() => setShowVIP(!showVIP)} className="flex items-center gap-1 px-4 py-2 mt-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors min-h-[40px]">
         <ChevronDown className={`w-3 h-3 transition-transform ${showVIP ? '' : '-rotate-90'}`} />
         VIP Exclusive Rooms
       </button>
       {showVIP && vipRooms.map(r => (
-        <div key={r.id} className="flex items-center gap-2 mx-2 px-3 py-2.5 rounded-md text-sm text-muted-foreground/60 cursor-not-allowed">
+        <div key={r.id} className="flex items-center gap-2 mx-2 px-3 py-2.5 rounded-md text-sm text-muted-foreground/60 cursor-not-allowed min-h-[44px]">
           <Hash className="w-3.5 h-3.5 opacity-40" />
           <span className="flex-1 truncate">{r.name}</span>
           <Lock className="w-3 h-3 opacity-40" />
@@ -128,7 +146,7 @@ const CommunityLounge: React.FC = () => {
       ))}
 
       {/* DMs */}
-      <button onClick={() => setShowDMs(!showDMs)} className="flex items-center gap-1 px-4 py-2 mt-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors">
+      <button onClick={() => setShowDMs(!showDMs)} className="flex items-center gap-1 px-4 py-2 mt-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors min-h-[40px]">
         <ChevronDown className={`w-3 h-3 transition-transform ${showDMs ? '' : '-rotate-90'}`} />
         Direct Messages
       </button>
@@ -136,7 +154,7 @@ const CommunityLounge: React.FC = () => {
         <button
           key={c.id}
           onClick={() => handleSelectDM(c.id)}
-          className={`flex items-center gap-2.5 mx-2 px-3 py-2.5 rounded-md text-sm transition-colors ${
+          className={`flex items-center gap-2.5 mx-2 px-3 py-2.5 rounded-md text-sm transition-colors min-h-[44px] ${
             activeDM === c.id
               ? 'bg-white/[0.08] text-foreground border-l-2 border-primary ml-2 pl-2'
               : 'text-muted-foreground hover:text-foreground hover:bg-white/[0.04]'
@@ -154,7 +172,7 @@ const CommunityLounge: React.FC = () => {
       ))}
 
       <div className="mt-auto p-3">
-        <button className="w-full flex items-center justify-center gap-1.5 text-xs text-muted-foreground hover:text-foreground py-2.5 rounded-md border border-white/[0.08] hover:border-primary/40 transition-colors">
+        <button className="w-full flex items-center justify-center gap-1.5 text-xs text-muted-foreground hover:text-foreground py-2.5 rounded-md border border-white/[0.08] hover:border-primary/40 transition-colors min-h-[44px]">
           <Plus className="w-3.5 h-3.5" /> Add Channel
         </button>
       </div>
@@ -163,12 +181,12 @@ const CommunityLounge: React.FC = () => {
 
   /* ── Chat Canvas ── */
   const chatCanvas = (
-    <div className="flex-1 flex flex-col min-w-0">
+    <div className="flex-1 flex flex-col min-w-0 relative">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 sm:px-5 py-3 border-b border-white/[0.06]">
+      <div className="flex items-center justify-between px-4 sm:px-5 py-3 border-b border-white/[0.06] shrink-0">
         <div className="flex items-center gap-2">
           {isMobile && (
-            <button onClick={handleBack} className="p-2 -ml-2 rounded-lg hover:bg-white/5 transition-colors">
+            <button onClick={() => setMobileShowChat(false)} className="p-2 -ml-2 rounded-lg hover:bg-white/5 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
               <ArrowLeft className="w-5 h-5 text-foreground" />
             </button>
           )}
@@ -180,7 +198,7 @@ const CommunityLounge: React.FC = () => {
             <Hash className="w-4 h-4 text-muted-foreground" />
           )}
           <h3 className="text-sm font-semibold text-foreground">{activeName}</h3>
-          {!activeDM && <span className="hidden sm:inline text-xs text-muted-foreground ml-1">— Real-time community discussion</span>}
+          {!activeDM && <span className="hidden sm:inline text-xs text-muted-foreground ml-1">— Real-time discussion</span>}
         </div>
         <div className="flex items-center gap-2 text-muted-foreground">
           <Users className="w-4 h-4 cursor-pointer hover:text-foreground transition-colors" />
@@ -188,42 +206,49 @@ const CommunityLounge: React.FC = () => {
         </div>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 sm:px-5 py-4 space-y-0.5 scrollbar-hide">
-        {messages.map((msg, i) => {
-          const showHeader = i === 0 || messages[i - 1].user !== msg.user;
+      {/* Messages — Bubble Style */}
+      <div className="flex-1 overflow-y-auto px-4 sm:px-5 py-4 space-y-3 scrollbar-hide">
+        {messages.map((msg) => {
+          const isOwn = msg.isOwn;
           return (
             <div
               key={msg.id}
-              className={`group flex gap-3 px-2 py-0.5 rounded-md hover:bg-white/[0.03] transition-colors ${showHeader ? 'mt-4 pt-1' : ''}`}
+              className={`flex ${isOwn ? 'justify-end' : 'justify-start'}`}
             >
-              {showHeader ? (
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
-                  msg.isOwn ? 'bg-primary/30 text-primary' : 'bg-white/[0.08] text-foreground/60'
+              <div className={`flex gap-2 max-w-[80%] sm:max-w-[70%] ${isOwn ? 'flex-row-reverse' : 'flex-row'}`}>
+                {/* Avatar */}
+                <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0 mt-1 ${
+                  isOwn ? 'bg-primary/30 text-primary' : 'bg-white/[0.08] text-foreground/60'
                 }`}>
                   {msg.initials}
                 </div>
-              ) : (
-                <div className="w-8 shrink-0" />
-              )}
-              <div className="min-w-0 flex-1">
-                {showHeader && (
-                  <div className="flex items-baseline gap-2 mb-0.5">
-                    <span className="text-sm font-semibold text-foreground">{msg.user}</span>
-                    <span className="text-[10px] text-muted-foreground">{msg.time}</span>
+                {/* Bubble */}
+                <div className="flex flex-col">
+                  {!isOwn && (
+                    <span className="text-[10px] font-semibold text-muted-foreground mb-0.5 ml-1">{msg.user}</span>
+                  )}
+                  <div className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed break-words ${
+                    isOwn
+                      ? 'bg-primary text-primary-foreground rounded-tr-sm'
+                      : 'bg-white/[0.06] border border-white/[0.08] text-foreground rounded-tl-sm'
+                  }`}>
+                    {msg.text}
                   </div>
-                )}
-                <p className="text-sm text-foreground/80 leading-relaxed break-words">{msg.text}</p>
+                  <span className={`text-[9px] text-muted-foreground/60 mt-1 ${isOwn ? 'text-right mr-1' : 'ml-1'}`}>
+                    {msg.time}
+                  </span>
+                </div>
               </div>
             </div>
           );
         })}
+        <div ref={chatEndRef} />
       </div>
 
       {/* Input */}
-      <div className="px-4 sm:px-5 pb-4 pt-2">
-        <div className="flex items-center gap-2 rounded-lg border border-white/[0.08] bg-black/20 px-3 py-2.5 focus-within:border-primary/40 transition-colors">
-          <button className="text-muted-foreground hover:text-foreground transition-colors shrink-0 p-1">
+      <div className="px-4 sm:px-5 pb-4 pt-2 shrink-0">
+        <div className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-black/20 px-3 py-2.5 focus-within:border-primary/40 transition-colors">
+          <button className="text-muted-foreground hover:text-foreground transition-colors shrink-0 p-1 min-h-[36px] min-w-[36px] flex items-center justify-center">
             <Plus className="w-4 h-4" />
           </button>
           <input
@@ -231,18 +256,26 @@ const CommunityLounge: React.FC = () => {
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && send()}
             placeholder={`Message ${activeName}`}
-            className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none"
+            className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none min-h-[36px]"
           />
           <div className="flex items-center gap-1.5 text-muted-foreground shrink-0">
             <Smile className="w-4 h-4 cursor-pointer hover:text-foreground transition-colors hidden sm:block" />
             <AtSign className="w-4 h-4 cursor-pointer hover:text-foreground transition-colors hidden sm:block" />
             <Image className="w-4 h-4 cursor-pointer hover:text-foreground transition-colors hidden sm:block" />
-            <button onClick={send} className="ml-1 p-1 text-primary hover:text-primary/80 transition-colors">
+            <button onClick={send} className="ml-1 p-2 text-primary hover:text-primary/80 transition-colors min-h-[36px] min-w-[36px] flex items-center justify-center">
               <Send className="w-4 h-4" />
             </button>
           </div>
         </div>
       </div>
+
+      {/* Create Room FAB (VIP) */}
+      <button
+        className="absolute bottom-20 right-4 sm:bottom-20 sm:right-6 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center glow-fuchsia hover:scale-105 transition-transform z-10"
+        title="Create Room (VIP)"
+      >
+        <Plus className="w-5 h-5" />
+      </button>
     </div>
   );
 
@@ -272,14 +305,14 @@ const CommunityLounge: React.FC = () => {
         </div>
       </div>
       <div className="mt-auto p-4">
-        <button className="w-full py-2.5 rounded-lg border border-white/[0.08] text-xs font-medium text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors">
+        <button className="w-full py-2.5 rounded-lg border border-white/[0.08] text-xs font-medium text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors min-h-[44px]">
           Create Exclusive Room
         </button>
       </div>
     </aside>
   );
 
-  /* ── Mobile Layout: show nav OR chat ── */
+  /* ── Mobile Layout ── */
   if (isMobile) {
     return (
       <div className="flex-1 flex flex-col overflow-hidden">

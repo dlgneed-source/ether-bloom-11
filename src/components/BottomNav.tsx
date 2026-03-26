@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Network, MessageCircle, GraduationCap, Sparkles } from 'lucide-react';
+import { LayoutDashboard, MessageCircle, GraduationCap, Sparkles, UserCircle } from 'lucide-react';
 
-export type PanelId = 'dashboard' | 'referral' | 'community' | 'edtech' | 'aitools' | 'admin';
+export type PanelId = 'dashboard' | 'referral' | 'community' | 'edtech' | 'aitools' | 'admin' | 'profile';
 
 interface BottomNavProps {
   activePanel: PanelId;
@@ -11,10 +11,10 @@ interface BottomNavProps {
 
 const navItems: { id: PanelId; label: string; icon: React.ElementType }[] = [
   { id: 'dashboard', label: 'Hub', icon: LayoutDashboard },
-  { id: 'referral', label: 'Referral', icon: Network },
-  { id: 'community', label: 'Lounge', icon: MessageCircle },
   { id: 'edtech', label: 'Learn', icon: GraduationCap },
   { id: 'aitools', label: 'AI Tools', icon: Sparkles },
+  { id: 'community', label: 'Lounge', icon: MessageCircle },
+  { id: 'profile', label: 'Profile', icon: UserCircle },
 ];
 
 const BottomNav: React.FC<BottomNavProps> = ({ activePanel, onNavigate }) => {

@@ -1,24 +1,19 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  LayoutDashboard,
-  Network,
-  Sparkles,
-  GraduationCap,
-  MessageCircle,
   Shield,
   Settings,
+  LogOut,
+  Moon,
+  Globe,
 } from 'lucide-react';
 import type { PanelId } from '@/components/BottomNav';
 
-const navItems: { id: PanelId; label: string; icon: React.ElementType }[] = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'referral', label: 'Referral Engine', icon: Network },
-  { id: 'aitools', label: 'AI Hub', icon: Sparkles },
-  { id: 'edtech', label: 'EdTech LMS', icon: GraduationCap },
-  { id: 'community', label: 'Community Lounge', icon: MessageCircle },
-  { id: 'admin', label: 'Admin Panel', icon: Shield },
-  { id: 'dashboard', label: 'Settings', icon: Settings },
+const menuItems: { label: string; icon: React.ElementType; action: string }[] = [
+  { label: 'System Preferences', icon: Settings, action: 'preferences' },
+  { label: 'Admin Panel', icon: Shield, action: 'admin' },
+  { label: 'Dark Mode', icon: Moon, action: 'darkmode' },
+  { label: 'Language', icon: Globe, action: 'language' },
 ];
 
 interface InternalSidebarProps {

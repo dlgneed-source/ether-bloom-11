@@ -151,13 +151,13 @@ const ReferralEngine: React.FC = () => {
         <motion.div initial="hidden" animate="visible" custom={0} variants={fadeUp}
           className="glass-strong rounded-2xl p-5 sm:p-7 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-48 h-48 bg-primary/8 rounded-full blur-[80px] pointer-events-none" />
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+          <div className="flex flex-col gap-4">
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <Wallet className="w-5 h-5 text-primary" />
                 <span className="text-xs font-bold text-muted-foreground uppercase tracking-[0.15em]">User Funds</span>
               </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <p className="text-[10px] text-muted-foreground mb-0.5">Live Wallet Balance</p>
                   <p className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">$12,840<span className="text-base text-muted-foreground">.00</span></p>
@@ -168,19 +168,19 @@ const ReferralEngine: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-2 w-full">
-              <button className="bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 py-2.5 px-4 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1.5 min-h-[44px]">
-                <ArrowDownLeft className="w-3.5 h-3.5" /> Deposit
+            <div className="flex flex-col gap-2 sm:grid sm:grid-cols-2 sm:gap-3 w-full">
+              <button className="bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 min-h-[48px] w-full">
+                <ArrowDownLeft className="w-4 h-4 shrink-0" /> Deposit
               </button>
               <button onClick={() => setWithdrawOpen(true)}
-                className="bg-primary text-primary-foreground py-2.5 px-4 rounded-xl font-bold text-xs transition-all hover:opacity-90 flex items-center justify-center gap-1.5">
-                <ArrowUpRight className="w-3.5 h-3.5" /> Withdraw
+                className="bg-primary text-primary-foreground py-3 px-4 rounded-xl font-bold text-sm transition-all hover:opacity-90 flex items-center justify-center gap-2 min-h-[48px] w-full">
+                <ArrowUpRight className="w-4 h-4 shrink-0" /> Withdraw
               </button>
-              <button className="bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-400 py-2.5 px-4 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1.5">
-                <Share2 className="w-3.5 h-3.5" /> Refer
+              <button className="bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-400 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 min-h-[48px] w-full">
+                <Share2 className="w-4 h-4 shrink-0" /> Refer
               </button>
-              <button className="bg-secondary/60 hover:bg-secondary/80 border border-border/30 text-muted-foreground py-2.5 px-4 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1.5">
-                <Clock className="w-3.5 h-3.5" /> History
+              <button className="bg-secondary/60 hover:bg-secondary/80 border border-border/30 text-muted-foreground py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 min-h-[48px] w-full">
+                <Clock className="w-4 h-4 shrink-0" /> History
               </button>
             </div>
           </div>

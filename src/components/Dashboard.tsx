@@ -137,21 +137,21 @@ const Dashboard: React.FC = () => {
           <p className="text-xs text-muted-foreground mt-1 font-mono">≈ 8.12 BNB</p>
           
           {/* Action Buttons - Color coded */}
-          <div className="mt-5 grid grid-cols-2 gap-2 sm:gap-3">
-            <button className="bg-gradient-to-r from-accent to-primary text-primary-foreground py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all glow-fuchsia flex items-center justify-center gap-1.5 min-h-[44px]">
-              <ArrowUpRight className="w-3.5 h-3.5" /> Withdraw
+          <div className="mt-5 flex flex-col gap-2 sm:grid sm:grid-cols-2 sm:gap-3">
+            <button className="bg-gradient-to-r from-accent to-primary text-primary-foreground py-3 px-4 rounded-xl font-bold text-sm transition-all glow-fuchsia flex items-center justify-center gap-2 min-h-[48px] w-full">
+              <ArrowUpRight className="w-4 h-4 shrink-0" /> Withdraw
             </button>
-            <button className="bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-400 py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 min-h-[44px]">
-              <ArrowDownLeft className="w-3.5 h-3.5" /> Deposit
+            <button className="bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-400 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 min-h-[48px] w-full">
+              <ArrowDownLeft className="w-4 h-4 shrink-0" /> Deposit
             </button>
-            <button className="bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-400 py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 min-h-[44px]">
-              <Share2 className="w-3.5 h-3.5" /> Refer
+            <button className="bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-400 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 min-h-[48px] w-full">
+              <Share2 className="w-4 h-4 shrink-0" /> Refer
             </button>
             <button
               onClick={() => setShowTransactions(!showTransactions)}
-              className="bg-slate-500/20 hover:bg-slate-500/30 border border-slate-500/40 text-slate-400 py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 min-h-[44px]"
+              className="bg-slate-500/20 hover:bg-slate-500/30 border border-slate-500/40 text-slate-400 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 min-h-[48px] w-full"
             >
-              <Clock className="w-3.5 h-3.5" /> History
+              <Clock className="w-4 h-4 shrink-0" /> History
             </button>
           </div>
         </motion.div>

@@ -29,7 +29,7 @@ const Index: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex bg-[image:var(--gradient-dashboard)] text-foreground font-sans relative">
+    <div className="min-h-screen flex bg-[image:var(--gradient-dashboard)] text-foreground font-sans relative w-full max-w-full overflow-x-hidden">
       <InternalSidebar
         open={sidebarOpen || !isMobile}
         activePanel={activePanel}
@@ -37,7 +37,7 @@ const Index: React.FC = () => {
         onClose={() => setSidebarOpen(false)}
       />
 
-      <div className="flex-1 flex flex-col min-h-screen">
+      <div className="flex-1 flex flex-col min-h-screen min-w-0 overflow-x-hidden">
         <InternalHeader
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
           sidebarOpen={sidebarOpen}

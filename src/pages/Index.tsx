@@ -8,6 +8,7 @@ import ReferralEngine from '@/components/ReferralEngine';
 import CommunityLounge from '@/components/CommunityLounge';
 import EdTechSpace from '@/components/EdTechSpace';
 import AIToolsHub from '@/components/AIToolsHub';
+import AdminPanel from '@/components/AdminPanel';
 import BottomNav, { type PanelId } from '@/components/BottomNav';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -56,6 +57,7 @@ const Index: React.FC = () => {
             {activePanel === 'community' && <CommunityLounge />}
             {activePanel === 'edtech' && <EdTechSpace />}
             {activePanel === 'aitools' && <AIToolsHub />}
+            {activePanel === 'admin' && <AdminPanel />}
           </motion.main>
         </AnimatePresence>
 

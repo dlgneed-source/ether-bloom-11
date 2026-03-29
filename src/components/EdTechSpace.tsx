@@ -1,335 +1,981 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Lock, Send, X, Bot, Sparkles, CheckCircle, BookOpen, Shield, Brain, Code2, ArrowLeft, FileText, Download, Video, Clock, Paperclip } from 'lucide-react';
+import { 
+  Play, Lock, Send, X, Bot, Clock, Paperclip, Trophy, GraduationCap, 
+  ArrowLeft, FileText, Download, Video, CheckCircle2,
+  Star, Sparkles, Zap, BookOpen, Flame, Award,
+  TrendingUp, Users, Check, Circle, LockKeyhole
+} from 'lucide-react';
 
-const plans = [
-  {
-    level: 1, name: 'Foundation', price: '$7', icon: BookOpen, unlocked: true,
-    features: ['HTML, CSS & JS (Complete Core Logic)', 'Python Programming (Termux Hands-on)', 'Linux Command Line Mastery'],
+/* ═══════════════════════════════════════════════════════════════ */
+/*                    PREMIUM COURSE DATA                          */
+/* ═══════════════════════════════════════════════════════════════ */
+const originalModules = [
+  { 
+    id: 1, 
+    title: 'HTML, CSS & JS Fundamentals', 
+    duration: '12h 30m', 
+    thumbnail: '🌐', 
+    locked: false, 
+    progress: 100, 
+    category: 'Foundation',
+    lessons: 24,
+    students: '12.5K',
+    rating: 4.9
   },
-  {
-    level: 2, name: 'Pro Builder', price: '$14', icon: Code2, unlocked: false,
-    features: ['React.js & Tailwind CSS (Modern UI/UX)', 'SQL & DBMS (Database Architecture)', 'Git & Github (Complete Course)', 'Bot Architecture (TG/Discord Bots)'],
+  { 
+    id: 2, 
+    title: 'Python for Termux Users', 
+    duration: '8h 45m', 
+    thumbnail: '🐍', 
+    locked: false, 
+    progress: 65, 
+    category: 'Foundation',
+    lessons: 18,
+    students: '9.2K',
+    rating: 4.8
   },
-  {
-    level: 3, name: 'Cyber Elite', price: '$40', icon: Shield, unlocked: false,
-    features: ['Ethical Hacking Foundations', 'Network Analysis (Wireshark)', 'Web App Security (Burpsuite & Scraping)'],
+  { 
+    id: 3, 
+    title: 'Linux Command Line Mastery', 
+    duration: '6h 20m', 
+    thumbnail: '🐧', 
+    locked: false, 
+    progress: 30, 
+    category: 'Foundation',
+    lessons: 15,
+    students: '15.1K',
+    rating: 4.9
   },
-  {
-    level: 4, name: 'AI Mastery', price: '$150', icon: Brain, unlocked: false,
-    features: ['Data Analysis (Pandas/Numpy)', 'Advanced Neural Networks & AI Architecture', 'AI API Integration (LLMs, Bots, Projects)'],
+  { 
+    id: 4, 
+    title: 'React.js & Tailwind CSS', 
+    duration: '18h 15m', 
+    thumbnail: '⚛️', 
+    locked: true, 
+    progress: 0, 
+    category: 'Pro Builder',
+    lessons: 32,
+    students: '22.3K',
+    rating: 4.9
   },
-];
-
-const modules = [
-  { id: 1, title: 'HTML, CSS & JS Fundamentals', duration: '1h 20m', thumbnail: '🌐', locked: false },
-  { id: 2, title: 'Python for Termux Users', duration: '55m', thumbnail: '🐍', locked: false },
-  { id: 3, title: 'Linux Command Line Mastery', duration: '42m', thumbnail: '🐧', locked: false },
-  { id: 4, title: 'React.js & Tailwind CSS', duration: '1h 45m', thumbnail: '⚛️', locked: true },
-  { id: 5, title: 'SQL & DBMS Foundations', duration: '1h 10m', thumbnail: '🗄️', locked: true },
-  { id: 6, title: 'Git & Github Complete', duration: '58m', thumbnail: '🔀', locked: true },
-  { id: 7, title: 'Bot Architecture (TG/Discord)', duration: '1h 30m', thumbnail: '🤖', locked: true },
-  { id: 8, title: 'Ethical Hacking Foundations', duration: '2h 10m', thumbnail: '🔐', locked: true },
-  { id: 9, title: 'Network Analysis (Wireshark)', duration: '1h 25m', thumbnail: '📡', locked: true },
-  { id: 10, title: 'Neural Networks Deep Dive', duration: '1h 50m', thumbnail: '🧠', locked: true },
+  { 
+    id: 5, 
+    title: 'SQL & DBMS Foundations', 
+    duration: '10h 40m', 
+    thumbnail: '🗄️', 
+    locked: true, 
+    progress: 0, 
+    category: 'Pro Builder',
+    lessons: 22,
+    students: '8.7K',
+    rating: 4.7
+  },
+  { 
+    id: 6, 
+    title: 'Git & Github Complete', 
+    duration: '5h 55m', 
+    thumbnail: '🔀', 
+    locked: true, 
+    progress: 0, 
+    category: 'Pro Builder',
+    lessons: 14,
+    students: '18.9K',
+    rating: 4.8
+  },
+  { 
+    id: 7, 
+    title: 'Bot Architecture (TG/Discord)', 
+    duration: '14h 20m', 
+    thumbnail: '🤖', 
+    locked: true, 
+    progress: 0, 
+    category: 'Pro Builder',
+    lessons: 28,
+    students: '6.4K',
+    rating: 4.9
+  },
+  { 
+    id: 8, 
+    title: 'Ethical Hacking Foundations', 
+    duration: '22h 10m', 
+    thumbnail: '🔓', 
+    locked: true, 
+    progress: 0, 
+    category: 'Cyber Elite',
+    lessons: 42,
+    students: '11.2K',
+    rating: 5.0
+  },
+  { 
+    id: 9, 
+    title: 'Network Analysis (Wireshark)', 
+    duration: '11h 25m', 
+    thumbnail: '📡', 
+    locked: true, 
+    progress: 0, 
+    category: 'Cyber Elite',
+    lessons: 24,
+    students: '7.8K',
+    rating: 4.8
+  },
+  { 
+    id: 10, 
+    title: 'Neural Networks Deep Dive', 
+    duration: '16h 50m', 
+    thumbnail: '🧠', 
+    locked: true, 
+    progress: 0, 
+    category: 'AI Mastery',
+    lessons: 35,
+    students: '5.3K',
+    rating: 4.9
+  },
 ];
 
 const attachments = [
   { name: 'Course_Syllabus.pdf', size: '2.4 MB', icon: FileText },
   { name: 'Python_Cheatsheet.pdf', size: '1.1 MB', icon: FileText },
-  { name: 'Linux_Commands.md', size: '340 KB', icon: FileText },
   { name: 'Project_Starter.zip', size: '8.7 MB', icon: Paperclip },
+  { name: 'Source_Code.zip', size: '15.2 MB', icon: Paperclip },
 ];
+
+/* ═══════════════════════════════════════════════════════════════ */
+/*                    PREMIUM STYLES                               */
+/* ═══════════════════════════════════════════════════════════════ */
+const getCategoryStyles = (category: string) => {
+  switch(category) {
+    case 'Foundation': 
+      return { 
+        gradient: 'from-emerald-400 via-teal-400 to-cyan-400',
+        bg: 'from-emerald-500/20 via-teal-500/10 to-cyan-500/5',
+        border: 'border-emerald-400/40',
+        text: 'text-emerald-400',
+        glow: 'shadow-[0_0_40px_rgba(16,185,129,0.3)]',
+        button: 'from-emerald-500 to-teal-500'
+      };
+    case 'Pro Builder': 
+      return { 
+        gradient: 'from-blue-400 via-indigo-400 to-violet-400',
+        bg: 'from-blue-500/20 via-indigo-500/10 to-violet-500/5',
+        border: 'border-blue-400/40',
+        text: 'text-blue-400',
+        glow: 'shadow-[0_0_40px_rgba(59,130,246,0.3)]',
+        button: 'from-blue-500 to-indigo-500'
+      };
+    case 'Cyber Elite': 
+      return { 
+        gradient: 'from-rose-400 via-pink-400 to-fuchsia-400',
+        bg: 'from-rose-500/20 via-pink-500/10 to-fuchsia-500/5',
+        border: 'border-rose-400/40',
+        text: 'text-rose-400',
+        glow: 'shadow-[0_0_40px_rgba(244,63,94,0.3)]',
+        button: 'from-rose-500 to-pink-500'
+      };
+    case 'AI Mastery': 
+      return { 
+        gradient: 'from-amber-400 via-orange-400 to-red-400',
+        bg: 'from-amber-500/20 via-orange-500/10 to-red-500/5',
+        border: 'border-amber-400/40',
+        text: 'text-amber-400',
+        glow: 'shadow-[0_0_40px_rgba(251,191,36,0.3)]',
+        button: 'from-amber-500 to-orange-500'
+      };
+    default: 
+      return { 
+        gradient: 'from-slate-400 via-gray-400 to-zinc-400',
+        bg: 'from-slate-500/20 via-gray-500/10 to-zinc-500/5',
+        border: 'border-slate-400/40',
+        text: 'text-slate-400',
+        glow: 'shadow-slate-500/20',
+        button: 'from-slate-500 to-gray-500'
+      };
+  }
+};
 
 interface ChatMsg { role: 'user' | 'ai'; text: string; }
 
+/* ═══════════════════════════════════════════════════════════════ */
+/*                    MAIN COMPONENT                               */
+/* ═══════════════════════════════════════════════════════════════ */
 const EdTechSpace: React.FC = () => {
-  const [activeVideo, setActiveVideo] = useState<number | null>(null);
+  const [activeCourseId, setActiveCourseId] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState<'overview' | 'attachments' | 'certificate'>('overview');
   const [showAI, setShowAI] = useState(false);
   const [chatInput, setChatInput] = useState('');
   const [chatMessages, setChatMessages] = useState<ChatMsg[]>([
-    { role: 'ai', text: "Hi! I'm your AI learning assistant. Ask me anything about the course content." },
+    { role: 'ai', text: "👋 Welcome! I'm your AI learning assistant. I can help explain concepts, guide you through exercises, or answer any questions about your courses." },
   ]);
-  const [showPlans, setShowPlans] = useState(false);
-  const [activeTab, setActiveTab] = useState<'modules' | 'description' | 'attachments'>('modules');
+
+  const activeCourse = originalModules.find((c) => c.id === activeCourseId);
+  const activeStyles = activeCourse ? getCategoryStyles(activeCourse.category) : getCategoryStyles('Foundation');
 
   const sendChat = () => {
     if (!chatInput.trim()) return;
-    const userMsg = chatInput;
-    setChatMessages((prev) => [...prev, { role: 'user', text: userMsg }]);
+    setChatMessages((prev) => [...prev, { role: 'user', text: chatInput }]);
     setChatInput('');
     setTimeout(() => {
       setChatMessages((prev) => [
         ...prev,
-        { role: 'ai', text: `Great question about "${userMsg}"! This concept is covered in detail within the course modules. Would you like me to point you to the specific lesson?` },
+        { role: 'ai', text: `🎯 Great question! Let me guide you through this concept. Based on your progress, I'd recommend reviewing Module 3 for a deeper understanding.` },
       ]);
-    }, 800);
+    }, 1200);
   };
 
-  const activeCourse = modules.find((c) => c.id === activeVideo);
-
   return (
-    <div className="flex-1 flex flex-col pb-16 overflow-hidden relative">
-      {/* Indicator bar */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border/30">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-bold text-foreground">Learning Space</span>
-          <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
-            <Bot className="w-3 h-3" /> Synced
-          </span>
-        </div>
-        <button onClick={() => setShowPlans(!showPlans)} className="text-xs font-bold text-primary hover:underline">
-          Plans
-        </button>
-      </div>
-
-      {/* Plans overlay */}
-      <AnimatePresence>
-        {showPlans && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 z-30 bg-background/95 backdrop-blur-xl overflow-y-auto p-4 pb-20"
+    <div className="flex-1 flex flex-col pb-16 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 font-sans min-h-screen">
+      
+      {/* PREMIUM HEADER */}
+      <motion.div 
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="flex items-center justify-between px-6 py-4 border-b border-slate-700/30 bg-slate-900/60 backdrop-blur-xl shrink-0 sticky top-0 z-30"
+      >
+        <div className="flex items-center gap-4">
+          <motion.div 
+            whileHover={{ rotate: 10, scale: 1.05 }}
+            className="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 flex items-center justify-center shadow-lg shadow-fuchsia-500/30 relative overflow-hidden"
           >
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-foreground">Access Plans</h2>
-              <button onClick={() => setShowPlans(false)} className="text-muted-foreground hover:text-primary"><X className="w-5 h-5" /></button>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {plans.map((plan) => {
-                const PlanIcon = plan.icon;
-                return (
-                  <div key={plan.level} className={`rounded-2xl p-4 sm:p-5 relative overflow-hidden border ${plan.unlocked ? 'bg-white/[0.06] border-primary/40' : 'bg-white/[0.03] border-white/10'}`}>
-                    {plan.unlocked && <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-[9px] font-bold px-2 py-0.5 rounded-bl-lg">ACTIVE</div>}
-                    <div className="flex items-center gap-2 mb-2">
-                      <PlanIcon className="w-4 h-4 text-primary" />
-                      <span className="text-xs font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full">Plan {plan.level}</span>
-                    </div>
-                    <p className="text-sm font-bold text-foreground mb-1">{plan.name}</p>
-                    <p className="text-2xl font-extrabold text-foreground mb-3">{plan.price}<span className="text-xs text-muted-foreground">/mo</span></p>
-                    <ul className="space-y-1.5 mb-4">
-                      {plan.features.map((f) => (
-                        <li key={f} className="flex items-start gap-1.5 text-xs text-muted-foreground">
-                          <CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" /> {f}
-                        </li>
-                      ))}
-                    </ul>
-                    {!plan.unlocked && (
-                      <button className="w-full bg-gradient-to-r from-amber-500/20 to-yellow-600/20 backdrop-blur-md border border-yellow-500/30 text-yellow-400 font-medium tracking-wide hover:from-amber-500/30 hover:to-yellow-600/30 transition-all duration-300 rounded-lg py-3 px-6 text-sm">
-                        Upgrade to Plan {plan.level}
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+            <motion.div
+              animate={{ x: ['-100%', '200%'] }}
+              transition={{ repeat: Infinity, duration: 2, ease: 'linear', repeatDelay: 3 }}
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            />
+            <GraduationCap className="w-6 h-6 text-white relative z-10" />
           </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Active Course View */}
-      {activeVideo !== null ? (
-        <div className="flex flex-col flex-1 overflow-hidden">
-          {/* Sticky Video Player */}
-          <div className="sticky top-0 z-40 w-full bg-black">
-            <div className="relative w-full aspect-video flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40" />
-              <button onClick={() => setActiveVideo(null)} className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/60 backdrop-blur-sm text-foreground text-xs font-medium">
-                <ArrowLeft className="w-4 h-4" /> Back
-              </button>
-              <div className="text-center z-10">
-                <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-2">
-                  <Play className="w-7 h-7 text-primary ml-0.5" />
-                </div>
-                <p className="text-sm font-bold text-foreground">{activeCourse?.title}</p>
-                <p className="text-[10px] text-muted-foreground mt-1">Tap to play</p>
-              </div>
-            </div>
+          <div>
+            <h1 className="text-lg font-extrabold text-white tracking-tight">E@Akhuwat Academy</h1>
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] bg-gradient-to-r from-fuchsia-400 to-pink-400 bg-clip-text text-transparent">
+              Premium Learning Platform
+            </p>
           </div>
+        </div>
 
-          {/* Tabs */}
-          <div className="flex border-b border-border/30 bg-white/[0.02]">
-            {(['modules', 'description', 'attachments'] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${
-                  activeTab === tab ? 'text-primary border-b-2 border-primary' : 'text-muted-foreground'
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
+        <div className="flex items-center gap-4">
+          <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/60 border border-slate-700/50">
+            <Flame className="w-4 h-4 text-orange-400" />
+            <span className="text-sm font-bold text-white">12</span>
+            <span className="text-xs text-slate-400">day streak</span>
           </div>
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
+            <span className="text-sm font-bold text-white">JD</span>
+          </div>
+        </div>
+      </motion.div>
 
-          {/* Tab Content */}
-          <div className="flex-1 overflow-y-auto scrollbar-hide">
-            {activeTab === 'modules' && (
-              <div className="p-3 space-y-2">
-                {modules.map((m) => (
-                  <button
-                    key={m.id}
-                    onClick={() => !m.locked && setActiveVideo(m.id)}
-                    className={`w-full flex items-center gap-3 p-3 rounded-xl border transition-all text-left ${
-                      m.id === activeVideo
-                        ? 'bg-primary/10 border-primary/40'
-                        : m.locked
-                        ? 'bg-white/[0.02] border-white/5 opacity-50'
-                        : 'bg-white/[0.03] border-white/10 hover:border-primary/30'
-                    }`}
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-lg shrink-0">
-                      {m.locked ? <Lock className="w-4 h-4 text-muted-foreground" /> : m.thumbnail}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-foreground truncate">{m.title}</p>
-                      <div className="flex items-center gap-1.5 mt-0.5">
-                        <Clock className="w-3 h-3 text-muted-foreground" />
-                        <span className="text-[10px] text-muted-foreground">{m.duration}</span>
-                      </div>
-                    </div>
-                    {!m.locked && m.id === activeVideo && (
-                      <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                        <Video className="w-3 h-3 text-primary" />
-                      </div>
-                    )}
-                  </button>
-                ))}
-              </div>
-            )}
+      {/* CATALOG VIEW */}
+      {activeCourseId === null ? (
+        <div className="flex-1 overflow-y-auto px-4 py-8 sm:px-8 scrollbar-hide relative">
+          {/* Background Orbs */}
+          <motion.div
+            animate={{ y: [0, -20, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute w-96 h-96 -top-20 -left-20 rounded-full bg-violet-500/20 blur-3xl"
+          />
+          <motion.div
+            animate={{ y: [0, 20, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute w-80 h-80 top-1/3 right-0 rounded-full bg-fuchsia-500/20 blur-3xl"
+          />
+          <motion.div
+            animate={{ y: [0, -15, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute w-64 h-64 bottom-20 left-1/4 rounded-full bg-cyan-500/20 blur-3xl"
+          />
+          
+          <div className="max-w-7xl mx-auto space-y-10 relative z-10">
+            
+            {/* Hero Section */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700/50 p-8 sm:p-12"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-violet-500/10 via-fuchsia-500/10 to-pink-500/10" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-fuchsia-500/20 to-transparent rounded-full blur-3xl" />
+              
+              <div className="relative z-10">
+                <motion.div 
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2, type: 'spring' }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-fuchsia-500/20 border border-fuchsia-500/30 text-fuchsia-300 text-xs font-bold uppercase tracking-wider mb-6"
+                >
+                  <Sparkles className="w-4 h-4" /> Premium Access Active
+                </motion.div>
+                
+                <h2 className="text-3xl sm:text-5xl font-extrabold text-white mb-4 leading-tight">
+                  Master the Future of
+                  <span className="block bg-gradient-to-r from-fuchsia-400 via-pink-400 to-rose-400 bg-clip-text text-transparent">
+                    Technology
+                  </span>
+                </h2>
+                <p className="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
+                  Unlock 200+ hours of premium content across Web Development, Cybersecurity, 
+                  and Artificial Intelligence. Learn from industry experts.
+                </p>
 
-            {activeTab === 'description' && (
-              <div className="p-4 space-y-4">
-                <div>
-                  <h3 className="text-sm font-bold text-foreground mb-2">{activeCourse?.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    This module covers the complete core logic and practical implementation. 
-                    Designed for mobile-first learners using Termux and modern development environments. 
-                    Each lesson includes hands-on exercises and real-world project examples.
-                  </p>
-                </div>
-                <div className="border-t border-border/30 pt-3">
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2">Instructor</p>
+                <div className="flex flex-wrap gap-6 mt-8">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary">EA</div>
+                    <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
+                      <BookOpen className="w-5 h-5 text-emerald-400" />
+                    </div>
                     <div>
-                      <p className="text-xs font-semibold text-foreground">eAkhuwat Academy</p>
-                      <p className="text-[10px] text-muted-foreground">Senior Instructor</p>
+                      <p className="text-xl font-bold text-white">10</p>
+                      <p className="text-xs text-slate-400">Courses</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center border border-blue-500/30">
+                      <Video className="w-5 h-5 text-blue-400" />
+                    </div>
+                    <div>
+                      <p className="text-xl font-bold text-white">250+</p>
+                      <p className="text-xs text-slate-400">Video Lessons</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center border border-amber-500/30">
+                      <Users className="w-5 h-5 text-amber-400" />
+                    </div>
+                    <div>
+                      <p className="text-xl font-bold text-white">50K+</p>
+                      <p className="text-xs text-slate-400">Students</p>
                     </div>
                   </div>
                 </div>
               </div>
-            )}
+            </motion.div>
 
-            {activeTab === 'attachments' && (
-              <div className="p-3 space-y-2">
-                {attachments.map((file) => {
-                  const Icon = file.icon;
+            {/* Course Grid */}
+            <div>
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                  <Zap className="w-5 h-5 text-fuchsia-400" /> Your Learning Path
+                </h3>
+                <div className="flex gap-2">
+                  {['All', 'Foundation', 'Pro', 'Cyber', 'AI'].map((filter, i) => (
+                    <button 
+                      key={filter}
+                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                        i === 0 
+                          ? 'bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30' 
+                          : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                      }`}
+                    >
+                      {filter}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {originalModules.map((course, index) => {
+                  const aura = getCategoryStyles(course.category);
                   return (
-                    <div key={file.name} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/10">
-                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                        <Icon className="w-4 h-4 text-primary" />
+                    <motion.button
+                      key={course.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      whileHover={{ scale: 1.02, y: -8 }}
+                      onClick={() => !course.locked && setActiveCourseId(course.id)}
+                      className={`group relative flex flex-col text-left rounded-3xl border overflow-hidden ${
+                        course.locked 
+                          ? 'bg-slate-800/40 border-slate-700/50 opacity-70 cursor-not-allowed' 
+                          : `bg-gradient-to-br from-slate-800/80 to-slate-900/80 ${aura.border} ${aura.glow}`
+                      }`}
+                    >
+                      {/* Shimmer Overlay */}
+                      {!course.locked && (
+                        <motion.div
+                          animate={{ x: ['-100%', '200%'] }}
+                          transition={{ repeat: Infinity, duration: 2, ease: 'linear', repeatDelay: 3 }}
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent z-20 pointer-events-none"
+                        />
+                      )}
+
+                      {/* Card Cover */}
+                      <div className={`h-40 w-full relative flex items-center justify-center overflow-hidden bg-gradient-to-br ${course.locked ? 'from-slate-800 to-slate-900' : aura.bg}`}>
+                        {/* Floating Emoji */}
+                        <motion.span 
+                          animate={{ y: [0, -10, 0] }}
+                          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                          className="text-6xl drop-shadow-2xl filter group-hover:scale-110 transition-transform duration-300"
+                        >
+                          {course.thumbnail}
+                        </motion.span>
+
+                        {/* Locked Overlay */}
+                        {course.locked && (
+                          <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-10">
+                            <motion.div 
+                              whileHover={{ scale: 1.05 }}
+                              className="bg-slate-900/90 px-5 py-3 rounded-2xl border border-slate-600 flex items-center gap-3 shadow-2xl"
+                            >
+                              <div className="w-10 h-10 rounded-xl bg-rose-500/20 flex items-center justify-center">
+                                <LockKeyhole className="w-5 h-5 text-rose-400" />
+                              </div>
+                              <div>
+                                <span className="text-sm font-bold text-white block">Premium Locked</span>
+                                <span className="text-xs text-slate-400">Upgrade to unlock</span>
+                              </div>
+                            </motion.div>
+                          </div>
+                        )}
+
+                        {/* Progress Badge */}
+                        {course.progress > 0 && !course.locked && (
+                          <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10">
+                            <span className={`text-xs font-bold ${aura.text}`}>{course.progress}% Done</span>
+                          </div>
+                        )}
+
+                        {/* Glow Effect */}
+                        <div className={`absolute -bottom-10 left-1/2 -translate-x-1/2 w-40 h-20 bg-gradient-to-r ${aura.gradient} opacity-40 blur-3xl`} />
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-foreground truncate">{file.name}</p>
-                        <p className="text-[10px] text-muted-foreground">{file.size}</p>
+
+                      {/* Card Body */}
+                      <div className="p-6 flex-1 flex flex-col bg-slate-900/60 backdrop-blur-sm">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className={`text-[10px] font-extrabold uppercase tracking-[0.2em] px-3 py-1 rounded-full border ${aura.border} ${aura.text} bg-gradient-to-r ${aura.bg}`}>
+                            {course.category}
+                          </span>
+                          <div className="flex items-center gap-1">
+                            <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                            <span className="text-xs font-bold text-slate-300">{course.rating}</span>
+                          </div>
+                        </div>
+
+                        <h3 className="text-lg font-bold text-white mb-3 leading-tight group-hover:text-fuchsia-300 transition-colors">
+                          {course.title}
+                        </h3>
+
+                        <div className="flex items-center gap-4 mb-4 text-xs text-slate-400">
+                          <span className="flex items-center gap-1.5">
+                            <Video className="w-3.5 h-3.5" /> {course.lessons} lessons
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <Clock className="w-3.5 h-3.5" /> {course.duration}
+                          </span>
+                        </div>
+
+                        {/* Progress Bar */}
+                        <div className="mt-auto">
+                          <div className="flex items-center justify-between text-xs mb-2">
+                            <span className="font-semibold text-slate-400 flex items-center gap-1.5">
+                              <TrendingUp className="w-3.5 h-3.5" /> Progress
+                            </span>
+                            <span className={`font-bold ${aura.text}`}>{course.progress}%</span>
+                          </div>
+                          <div className="w-full h-2.5 bg-slate-800/80 rounded-full overflow-hidden border border-slate-700/50">
+                            <motion.div 
+                              initial={{ width: 0 }}
+                              animate={{ width: `${course.progress}%` }}
+                              transition={{ duration: 1, ease: 'easeOut' }}
+                              className={`h-full rounded-full bg-gradient-to-r ${aura.gradient} relative`}
+                            >
+                              <motion.div
+                                animate={{ x: ['-100%', '200%'] }}
+                                transition={{ repeat: Infinity, duration: 2, ease: 'linear', repeatDelay: 3 }}
+                                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                              />
+                            </motion.div>
+                          </div>
+                        </div>
+
+                        {/* Action Button */}
+                        {!course.locked && (
+                          <motion.div 
+                            whileHover={{ scale: 1.02 }}
+                            className={`mt-4 w-full py-3 rounded-xl bg-gradient-to-r ${aura.button} text-white text-sm font-bold text-center shadow-lg`}
+                          >
+                            {course.progress === 100 ? 'Review Course' : course.progress > 0 ? 'Continue Learning' : 'Start Learning'}
+                          </motion.div>
+                        )}
                       </div>
-                      <button className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors shrink-0">
-                        <Download className="w-4 h-4 text-muted-foreground" />
-                      </button>
-                    </div>
-                  );
+                    </motion.button>
+                  )
                 })}
               </div>
-            )}
+            </div>
           </div>
         </div>
+
       ) : (
-        /* Course List (no active video) */
-        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 scrollbar-hide">
-          <h2 className="text-sm font-bold text-foreground mb-2">Courses</h2>
-          {modules.map((course) => (
-            <motion.button
-              key={course.id}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => !course.locked && setActiveVideo(course.id)}
-              className={`w-full rounded-xl p-3 flex items-center gap-3 text-left transition-all border ${
-                course.locked ? 'bg-white/[0.02] border-white/5 opacity-50' : 'bg-white/[0.03] border-white/10 hover:border-primary/30'
-              }`}
-            >
-              <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-lg shrink-0">
-                {course.locked ? <Lock className="w-4 h-4 text-muted-foreground" /> : course.thumbnail}
+
+        /* ACTIVE COURSE VIEW */
+        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+          <motion.div
+            animate={{ y: [0, -20, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute w-96 h-96 -top-20 -left-20 rounded-full bg-violet-500/20 blur-3xl"
+          />
+          <motion.div
+            animate={{ y: [0, 20, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute w-80 h-80 bottom-0 right-0 rounded-full bg-fuchsia-500/20 blur-3xl"
+          />
+          
+          {/* Left Side: Video & Content */}
+          <div className="flex-1 flex flex-col lg:border-r border-slate-700/30 min-w-0 overflow-y-auto relative z-10">
+            
+            {/* Premium Video Player */}
+            <div className="w-full bg-black aspect-video relative group overflow-hidden">
+              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+                {/* Animated Background */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                  className={`absolute w-[200%] h-[200%] bg-gradient-to-r ${activeStyles.gradient} opacity-10`}
+                  style={{ borderRadius: '50%' }}
+                />
+                
+                <div className="text-center relative z-10">
+                  <motion.button 
+                    animate={{ 
+                      boxShadow: [
+                        '0 0 20px rgba(59,130,246,0.3)',
+                        '0 0 40px rgba(59,130,246,0.5)',
+                        '0 0 20px rgba(59,130,246,0.3)'
+                      ]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-20 h-20 rounded-full bg-gradient-to-r from-fuchsia-500 to-pink-500 flex items-center justify-center mx-auto mb-4 shadow-2xl"
+                  >
+                    <Play className="w-8 h-8 text-white ml-1" fill="white" />
+                  </motion.button>
+                  <p className="text-lg font-bold text-white">Resume Learning</p>
+                  <p className="text-sm text-slate-400 mt-1">Module 3: Advanced Concepts</p>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-foreground truncate">{course.title}</p>
-                <p className="text-[10px] text-muted-foreground">{course.duration}</p>
+
+              {/* Player Controls */}
+              <div className="absolute top-0 inset-x-0 p-4 bg-gradient-to-b from-black/80 to-transparent flex items-start justify-between z-20">
+                <motion.button 
+                  whileHover={{ x: -5 }}
+                  onClick={() => setActiveCourseId(null)} 
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900/80 backdrop-blur-md hover:bg-slate-800 text-white text-sm font-bold transition-colors border border-slate-700/50"
+                >
+                  <ArrowLeft className="w-4 h-4" /> Back
+                </motion.button>
+                
+                <div className="flex items-center gap-3">
+                  <span className="px-4 py-2 rounded-xl bg-black/60 backdrop-blur-md border border-slate-700/50 flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">HD 1080p</span>
+                  </span>
+                  <span className="px-4 py-2 rounded-xl bg-fuchsia-500/20 backdrop-blur-md border border-fuchsia-500/30 flex items-center gap-2">
+                    <Award className="w-4 h-4 text-fuchsia-400" />
+                    <span className="text-xs font-bold text-fuchsia-300">Premium</span>
+                  </span>
+                </div>
               </div>
-              {!course.locked && <Play className="w-4 h-4 text-primary shrink-0" />}
-            </motion.button>
-          ))}
+
+              {/* Progress Bar */}
+              <div className="absolute bottom-0 inset-x-0 h-1 bg-slate-800">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: '35%' }}
+                  className={`h-full bg-gradient-to-r ${activeStyles.gradient}`}
+                />
+              </div>
+            </div>
+
+            {/* Premium Tabs */}
+            <div className="flex border-b border-slate-700/30 bg-slate-900/60 backdrop-blur-md px-2 sm:px-6 sticky top-0 z-20">
+              {(['overview', 'attachments', 'certificate'] as const).map((tab) => (
+                <motion.button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  whileHover={{ y: -2 }}
+                  className={`px-6 sm:px-8 py-5 text-sm font-bold uppercase tracking-wider transition-all relative ${
+                    activeTab === tab ? 'text-white' : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  {tab}
+                  {activeTab === tab && (
+                    <motion.div 
+                      layoutId="activeTab"
+                      className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${activeStyles.gradient}`}
+                    />
+                  )}
+                </motion.button>
+              ))}
+            </div>
+
+            {/* Tab Content */}
+            <div className="p-6 sm:p-10 flex-1 bg-slate-900/30">
+              <AnimatePresence mode="wait">
+                {activeTab === 'overview' && (
+                  <motion.div
+                    key="overview"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="max-w-4xl space-y-8"
+                  >
+                    {/* Course Header */}
+                    <div className="flex items-start gap-6">
+                      <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${activeStyles.gradient} flex items-center justify-center text-4xl shadow-xl`}>
+                        {activeCourse?.thumbnail}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${activeStyles.border} ${activeStyles.text}`}>
+                            {activeCourse?.category}
+                          </span>
+                          <span className="flex items-center gap-1 text-xs text-slate-400">
+                            <Users className="w-3.5 h-3.5" /> {activeCourse?.students} students
+                          </span>
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3">
+                          {activeCourse?.title}
+                        </h2>
+                        <p className="text-slate-300 leading-relaxed">
+                          Master the fundamentals and advanced concepts through hands-on projects. 
+                          This comprehensive course includes {activeCourse?.lessons} video lessons, 
+                          practical assignments, and a verified completion certificate.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                      {[
+                        { icon: Video, label: 'Lessons', value: `${activeCourse?.lessons}+` },
+                        { icon: Clock, label: 'Duration', value: activeCourse?.duration },
+                        { icon: Star, label: 'Rating', value: activeCourse?.rating },
+                        { icon: Trophy, label: 'Certificate', value: 'Yes' },
+                      ].map((stat, i) => (
+                        <motion.div
+                          key={stat.label}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: i * 0.1 }}
+                          className="p-4 rounded-2xl bg-slate-800/60 border border-slate-700/50 backdrop-blur-sm"
+                        >
+                          <stat.icon className={`w-5 h-5 mb-2 ${activeStyles.text}`} />
+                          <p className="text-xl font-bold text-white">{stat.value}</p>
+                          <p className="text-xs text-slate-400">{stat.label}</p>
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    {/* Instructor */}
+                    <div className="flex items-center gap-4 p-6 rounded-2xl bg-gradient-to-r from-slate-800/60 to-slate-900/60 border border-slate-700/50">
+                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-fuchsia-500 to-pink-500 flex items-center justify-center text-lg font-bold text-white">
+                        EA
+                      </div>
+                      <div>
+                        <p className="text-base font-bold text-white">E@Akhuwat Academy</p>
+                        <p className="text-sm text-fuchsia-400">Official Instructor</p>
+                      </div>
+                      <div className="ml-auto flex items-center gap-2">
+                        <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                        <span className="text-sm text-slate-400">Verified</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeTab === 'attachments' && (
+                  <motion.div
+                    key="attachments"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="max-w-2xl space-y-4"
+                  >
+                    <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                      <Paperclip className="w-5 h-5 text-fuchsia-400" /> Course Resources
+                    </h3>
+                    {attachments.map((file, i) => (
+                      <motion.div
+                        key={file.name}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        whileHover={{ scale: 1.02, x: 5 }}
+                        className="flex items-center justify-between p-5 rounded-2xl bg-slate-800/60 border border-slate-700/50 hover:border-fuchsia-500/50 transition-all group cursor-pointer"
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${activeStyles.bg} border ${activeStyles.border} flex items-center justify-center`}>
+                            <file.icon className={`w-5 h-5 ${activeStyles.text}`} />
+                          </div>
+                          <div>
+                            <p className="text-sm font-bold text-white group-hover:text-fuchsia-300 transition-colors">{file.name}</p>
+                            <p className="text-xs text-slate-400">{file.size}</p>
+                          </div>
+                        </div>
+                        <motion.button 
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          className={`w-10 h-10 rounded-xl bg-slate-700 hover:bg-gradient-to-r ${activeStyles.button} text-slate-300 hover:text-white flex items-center justify-center transition-all`}
+                        >
+                          <Download className="w-4 h-4" />
+                        </motion.button>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
+
+                {activeTab === 'certificate' && (
+                  <motion.div
+                    key="certificate"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="max-w-xl mx-auto"
+                  >
+                    <div className="relative">
+                      {/* Glow Effect */}
+                      <div className={`absolute -inset-1 bg-gradient-to-r ${activeStyles.gradient} rounded-3xl opacity-30 blur-xl`} />
+                      
+                      <div className="relative rounded-3xl border border-slate-700/50 bg-slate-900/80 backdrop-blur-xl p-8 overflow-hidden">
+                        {/* Certificate Content */}
+                        <div className="text-center">
+                          <motion.div 
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: 'spring', delay: 0.2 }}
+                            className={`w-24 h-24 rounded-full bg-gradient-to-br ${activeStyles.gradient} flex items-center justify-center mx-auto mb-6 shadow-2xl`}
+                          >
+                            <Trophy className="w-10 h-10 text-white" />
+                          </motion.div>
+                          
+                          <h3 className="text-2xl font-extrabold text-white mb-2">Certificate of Completion</h3>
+                          <p className="text-slate-400 mb-8">
+                            Complete all lessons and assignments to unlock your verified credential.
+                          </p>
+
+                          {/* Progress Circle */}
+                          <div className="relative w-40 h-40 mx-auto mb-8">
+                            <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                              <circle cx="50" cy="50" r="45" fill="none" stroke="#1e293b" strokeWidth="8" />
+                              <motion.circle 
+                                cx="50" cy="50" r="45" fill="none" 
+                                stroke="url(#gradient)" strokeWidth="8"
+                                strokeLinecap="round"
+                                strokeDasharray={`${2 * Math.PI * 45}`}
+                                initial={{ strokeDashoffset: `${2 * Math.PI * 45}` }}
+                                animate={{ strokeDashoffset: `${2 * Math.PI * 45 * (1 - (activeCourse?.progress || 0) / 100)}` }}
+                                transition={{ duration: 1.5, ease: 'easeOut' }}
+                              />
+                              <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                  <stop offset="0%" stopColor="#a855f7" />
+                                  <stop offset="100%" stopColor="#ec4899" />
+                                </linearGradient>
+                              </defs>
+                            </svg>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <span className="text-3xl font-bold text-white">{activeCourse?.progress}%</span>
+                            </div>
+                          </div>
+
+                          <motion.button 
+                            whileHover={activeCourse?.progress === 100 ? { scale: 1.05 } : {}}
+                            whileTap={activeCourse?.progress === 100 ? { scale: 0.95 } : {}}
+                            disabled={activeCourse?.progress !== 100}
+                            className={`w-full py-4 rounded-xl font-bold text-sm transition-all ${
+                              activeCourse?.progress === 100 
+                                ? `bg-gradient-to-r ${activeStyles.button} text-white shadow-xl` 
+                                : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
+                            }`}
+                          >
+                            {activeCourse?.progress === 100 ? (
+                              <span className="flex items-center justify-center gap-2">
+                                <Download className="w-4 h-4" /> Download Certificate
+                              </span>
+                            ) : (
+                              <span className="flex items-center justify-center gap-2">
+                                <Lock className="w-4 h-4" /> Complete Course to Unlock
+                              </span>
+                            )}
+                          </motion.button>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Right Side: Lesson List */}
+          <div className="w-full lg:w-[400px] bg-slate-900/60 backdrop-blur-xl flex flex-col border-t lg:border-t-0 lg:border-l border-slate-700/30">
+            <div className="p-5 border-b border-slate-700/30 bg-slate-800/60">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-fuchsia-400" /> Course Content
+              </h3>
+              <p className="text-[11px] text-slate-400 mt-1">
+                {activeCourse?.lessons} lessons • {activeCourse?.duration} total
+              </p>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto p-4 space-y-2">
+              {/* Section Header */}
+              <div className="p-4 rounded-xl bg-slate-800/60 border border-slate-700/50 mb-4">
+                <p className="text-sm font-bold text-white flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-amber-400" /> Section 1: Introduction
+                </p>
+                <p className="text-xs text-slate-400 mt-1">5 lessons • 45 mins</p>
+              </div>
+
+              {/* Lesson Items */}
+              {[1, 2, 3, 4, 5].map((lesson, i) => (
+                <motion.button
+                  key={lesson}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  whileHover={{ x: 5, backgroundColor: 'rgba(30, 41, 59, 0.8)' }}
+                  className={`w-full flex items-center gap-4 p-4 rounded-xl text-left transition-all ${
+                    i === 0 
+                      ? `bg-gradient-to-r ${activeStyles.bg} border ${activeStyles.border}` 
+                      : 'bg-slate-800/40 border border-transparent hover:border-slate-700/50'
+                  }`}
+                >
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
+                    i === 0 ? `bg-gradient-to-r ${activeStyles.button}` : 'bg-slate-700'
+                  }`}>
+                    {i === 0 ? <Play className="w-4 h-4 text-white ml-0.5" /> : 
+                     i < 3 ? <Check className="w-4 h-4 text-emerald-400" /> : 
+                     <Circle className="w-4 h-4 text-slate-500" />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className={`text-sm font-bold truncate ${i === 0 ? 'text-white' : 'text-slate-300'}`}>
+                      {i + 1}. {i === 0 ? 'Course Introduction' : i === 1 ? 'Setting Up Environment' : i === 2 ? 'Basic Concepts' : i === 3 ? 'Advanced Topics' : 'Project Walkthrough'}
+                    </p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">12:30</p>
+                  </div>
+                  {i === 0 && (
+                    <span className={`text-[10px] font-bold px-2 py-1 rounded-full ${activeStyles.text} bg-slate-900/50`}>
+                      NOW
+                    </span>
+                  )}
+                </motion.button>
+              ))}
+
+              {/* More Sections */}
+              <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 mt-4 opacity-60">
+                <p className="text-sm font-bold text-slate-400 flex items-center gap-2">
+                  <Lock className="w-4 h-4" /> Section 2: Advanced Concepts
+                </p>
+                <p className="text-xs text-slate-500 mt-1">8 lessons • 1h 20m</p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
-      {/* Floating AI Chat Button */}
-      {!showAI && (
-        <button
-          onClick={() => setShowAI(true)}
-          className="fixed bottom-20 right-4 w-12 h-12 rounded-full bg-primary flex items-center justify-center z-40 shadow-2xl"
-        >
-          <Sparkles className="w-5 h-5 text-primary-foreground" />
-        </button>
-      )}
+      {/* FLOATING AI CHAT BUTTON */}
+      <AnimatePresence>
+        {!showAI && (
+          <motion.button
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setShowAI(true)}
+            className="fixed bottom-24 right-4 sm:right-8 w-16 h-16 rounded-2xl bg-gradient-to-r from-fuchsia-500 via-pink-500 to-rose-500 flex items-center justify-center z-40 shadow-2xl shadow-fuchsia-500/40 border-2 border-white/10"
+          >
+            <motion.div
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <Bot className="w-7 h-7 text-white" />
+            </motion.div>
+            <span className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full border-2 border-slate-900 animate-pulse" />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* AI Chat Panel */}
       <AnimatePresence>
         {showAI && (
           <motion.div
-            initial={{ y: '100%', opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: '100%', opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed inset-x-0 bottom-16 top-[40%] sm:left-auto sm:right-4 sm:bottom-20 sm:top-auto sm:w-96 sm:h-[28rem] sm:rounded-2xl z-40 bg-background/95 backdrop-blur-xl flex flex-col rounded-t-2xl overflow-hidden border-t border-border/30 sm:border sm:border-border/30"
+            initial={{ y: 100, opacity: 0, scale: 0.9 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: 100, opacity: 0, scale: 0.9 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed bottom-24 right-4 sm:right-8 w-[calc(100vw-2rem)] sm:w-[420px] h-[500px] z-50 bg-slate-900 border border-slate-700/50 flex flex-col rounded-3xl shadow-2xl overflow-hidden"
           >
-            <div className="flex items-center justify-between px-4 py-3 border-b border-border/30">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-primary" />
-                <span className="text-sm font-bold text-foreground">AI Assistant</span>
+            {/* Glow */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-fuchsia-500/20 to-pink-500/20 rounded-3xl blur-xl -z-10" />
+            
+            {/* AI Header */}
+            <div className="flex items-center justify-between px-6 py-5 border-b border-slate-700/30 bg-slate-800/60 backdrop-blur-md shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-fuchsia-500 to-pink-500 flex items-center justify-center shadow-lg">
+                  <Bot className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <span className="block text-sm font-bold text-white">AI Learning Assistant</span>
+                  <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Online
+                  </span>
+                </div>
               </div>
-              <button onClick={() => setShowAI(false)} className="text-muted-foreground hover:text-primary">
+              <motion.button 
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setShowAI(false)} 
+                className="w-8 h-8 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors"
+              >
                 <X className="w-4 h-4" />
-              </button>
+              </motion.button>
             </div>
-            <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 scrollbar-hide">
+            
+            {/* Chat Messages */}
+            <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-slate-900/50 scrollbar-hide">
               {chatMessages.map((msg, i) => (
-                <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm ${
+                <motion.div 
+                  key={i} 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div className={`max-w-[85%] px-5 py-3.5 text-sm leading-relaxed ${
                     msg.role === 'user'
-                      ? 'bg-primary text-primary-foreground rounded-tr-sm'
-                      : 'bg-white/[0.06] border border-white/10 rounded-tl-sm text-foreground'
+                      ? 'bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white rounded-2xl rounded-tr-sm shadow-lg'
+                      : 'bg-slate-800 border border-slate-700/50 rounded-2xl rounded-tl-sm text-slate-200'
                   }`}>
                     {msg.text}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
-            <div className="px-3 py-2 border-t border-border/30">
-              <div className="flex items-center gap-2">
+
+            {/* Input Area */}
+            <div className="p-4 border-t border-slate-700/30 bg-slate-800/60 backdrop-blur-md shrink-0">
+              <div className="flex items-center gap-3 bg-slate-900/80 border border-slate-700/50 rounded-2xl px-4 py-3 focus-within:border-fuchsia-500/50 transition-colors">
                 <input
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && sendChat()}
-                  placeholder="Ask about the lesson..."
-                  className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                  placeholder="Ask anything about the course..."
+                  className="flex-1 bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none"
                 />
-                <button onClick={sendChat} className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
-                  <Send className="w-4 h-4 text-primary-foreground" />
-                </button>
+                <motion.button 
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={sendChat}
+                  disabled={!chatInput.trim()} 
+                  className="w-10 h-10 rounded-xl bg-gradient-to-r from-fuchsia-500 to-pink-500 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center shadow-lg transition-all"
+                >
+                  <Send className="w-4 h-4 text-white ml-0.5" />
+                </motion.button>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+
     </div>
   );
 };
